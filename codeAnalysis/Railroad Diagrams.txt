@@ -1,8 +1,8 @@
-PROGRAMA ::=	'PROGRAMA' 'id' '{' (VARS | ) (MODULO| ) '}'
+PROGRAMA ::=	'PROGRAMA' 'id' '{' (VARS | ) (MODULO | ) CUERPO+ '}'
 VARS     ::=    ('VAR' 'id' ('='VARCTE|) ';')+
-MODULO   ::=    'FUNC' 'id' '(' (PARAMS | ) ')' '{' (VARS (CUERPO |))+ '}'
+MODULO   ::=    ('FUNC' 'id' '(' (PARAMS | ) ')' '{' (VARS | ) (CUERPO)+ '}')+
 PARAM    ::=    'id' '=' VARCTE(',' 'id' '=' VARCTE)*
-CUERPO   ::=    (ASIGNACION ';' | CONDICION | CICLO | PREDEF ';' | IMPRIMIR ';')
+CUERPO   ::=    (ASIGNACION ';' | CONDICION | CICLO | PREDEF ';' | IMPRIMIR ';' |LLAMARFUNC)
 ARREGLO  ::=    'ARREGLO' 'id' ((('=' '{' (VARCTE(',' VARCTE)*) | ) '}' | ('[' 'num' ']')) | )
 ASIGNACION ::=  'id' '=' EXP
 EXP      ::=    TERMINO(('+' | '-')TERMINO)*
@@ -16,3 +16,4 @@ CICLO    ::=    MIENTRAS '(' LOGICO ')' '{' CUERPO+ '}'
 PREDEF   ::=    PDFUNC '{' (EXP((',')EXP)* | ASIG) ')'
 IMPRIMIR ::=    'IMPRIMIR' '(' VARCTE(('+')VARCTE)* ')'
 PDFUNC   ::=    (DETENER | MOVER_ADELANTE | MOVER_ATRAS | ROTAR | CARGAR_MAPA)
+LLAMARFUNC ::=  'id' '(' EXP ')' ';'
