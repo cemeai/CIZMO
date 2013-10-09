@@ -5,7 +5,7 @@ PARAM    ::=    'VAR' 'id'(',' 'VAR' 'id')*
 CUERPO   ::=    (ASIGNACION ';' | CONDICION | CICLO | PREDEF ';' | IMPRIMIR ';')
 ASIGNACION ::=  'id' ('[' EXP ']' | )'=' EXP
 
-LOGICO   ::=    EXPRESION(('&&' | '||')EXPRESION)*
+LOGICO   ::=    (EXPRESION | PRUEBAS)(('&&' | '||')(EXPRESION | PRUEBAS))*
 EXPRESION::=    EXP ('>' | '<' | '==' | '!=') EXP
 EXP      ::=    TERMINO(('+' | '-')TERMINO)*
 TERMINO  ::=    FACTOR(('*' | '/')FACTOR)*
@@ -14,6 +14,7 @@ VARCTE   ::=    ('id' ('[' EXP ']'| ) | 'int' | 'float' | 'string' | 'ToF')
 
 CONDICION::=    'SI' '(' LOGICO ')' '{' CUERPO+ '}' (SINO '{' CUERPO+ '}' | )
 CICLO    ::=    MIENTRAS '(' LOGICO ')' '{' CUERPO+ '}'
-PREDEF   ::=    PDFUNC '{' (EXP((',')EXP)*) ')'
+PREDEF   ::=    PDFUNC '(' (EXP((',')EXP)*) ')'
 IMPRIMIR ::=    'IMPRIMIR' '(' VARCTE(('+')VARCTE)* ')'
-PDFUNC   ::=    (DETENER | MOVER_ADELANTE | MOVER_ATRAS | ROTAR | CARGAR_MAPA | 'ide')
+PDFUNC   ::=    (DETENER | MOVER_ADELANTE | ROTAR | RECOGER_OBJ | CARGAR_MAPA | TERMINAR | 'IDE')
+PRUEBAS  ::=    ('CAMINO_DESPEJADO' | 'CAMINO_BLOQUEADO' | 'INTERSECCION_OBJ' | 'TENER_TODOS_OBJS')
