@@ -35,6 +35,8 @@
 	"}" 		{return (LLC);}
 	"(" 		{return (PAO);}
 	")" 		{return (PAC);}
+	"[" 		{return (COO);}
+	"]" 		{return (COC);}
 	"+" 		{return (MAS);}
 	"-" 		{return (MENOS);}
 	"*" 		{return (POR);}
