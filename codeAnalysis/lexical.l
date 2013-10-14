@@ -22,8 +22,14 @@
 	"DETENER" 	{return (DETENER);}
 	"MOVER_ADELANTE"{return (MOVER_ADELANTE);}
 	"MOVER_ATRAS" 	{return (MOVER_ATRAS);}
-	"VERDAD" 	{return (VERDAD);}
-	"FALSO" 	{return (FALSO);}
+	"RECOGER_OBJ" 	{return (RECOGER_OBJ);}
+	"TERMINAR" 	{return (TERMINAR);}
+	"CAMINO_DESPEJADO" 	{return (CAMINO_DESPEJADO);}
+	"CAMINO_BLOQUEADO" 	{return (CAMINO_BLOQUEADO);}
+	"INTERSECCION_OBJ" 	{return (INTERSECCION_OBJ);}
+	"TENER_TODOS_OBJS" 	{return (TENER_TODOS_OBJS);}
+	"VERDAD" 	{return (TRUE);}
+	"FALSO" 	{return (FALSE);}
 	"ROTAR" 	{return (ROTAR);}
 	"CARGARMAPA" 	{return (CARGARMAPA);}
 	"VAR" 		{return (VAR);}

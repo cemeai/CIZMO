@@ -2,77 +2,78 @@
 #include <stdio.h>
 #include <string.h>
 %}
-%token PROGRAMA FUNC COND SI SINO VAR IMPRIMIR MIENTRAS DETENER MOVER_ADELANTE MOVER_ATRAS VERDADERO FALSO IDE ROTAR CARGARMAPA LLO LLC COO COC PAO PAC ID ASIGNACION IGUAL MAYOR MENOR DIFERENTE MAS MENOS POR ENTRE COMA PUNTOCOMA CTEENTERA CTEFLOTANTE CTESTRING TOF Y O CAMINO_DESPEJADO CAMINO_BLOQUEADO
+%token PROGRAMA FUNC COND SI SINO VAR IMPRIMIR MIENTRAS DETENER MOVER_ADELANTE MOVER_ATRAS IDE ROTAR CARGARMAPA LLO LLC COO COC PAO PAC ID ASIGNACION IGUAL MAY MEN DIF MAS MENOS POR ENTRE C PC PUNTO DP CINT CFLOAT STRING TRUE FALSE AND OR CAMINO_DESPEJADO CAMINO_BLOQUEADO INTERSECCION_OBJ TENER_TODOS_OBJS
 %%
-PROGRAMA0: PROGRAMA ID ABRELLAVE P1 P3 CIERRALLAVE P2;
-P1: /* empty */ | VAR0;
-P2: /* empty */ | MODULO0;
-P3: CUERPO0 P4;
-P4: /* empty */ | CUERPO0 P4;
+programa: PROGRAMA ID LLO p1 p3 LLC p2;
+p1: /* empty */ | var;
+p2: /* empty */ | MODULO0;
+p3: CUERPO0 p4;
+p4: /* empty */ | CUERPO0 p4;
 
-VAR0: VAR ID V1 PUNTOCOMA;
-V1: V2 | ABRECORCH CTEENTERA CIERRACORCH;
-V2: IGUAL V3;
-V3: EXP0 | LLO V4 LLC;
-V4: CTEENTERA V5;
-V5: /* empty */ | COMA CTEENTERA V5;
+var: VAR ID v1 PC;
+v1: v2 | COO CINT COC;
+v2: IGUAL v3;
+v3: exp | LLO v4 LLC;
+v4: CINT v5;
+v5: /* empty */ | C CINT v5;
 
-MODULO0: FUNC IDE ABREPAREN M1 CIERRAPAREN ABRELLAVE M2 M6;
-M1: /* empty */ | PARAM0;
-M2: M3 M4;
-M3: /* empty */ | V0;
-M4: CUERPO0 M5;
-M5: /* empty */ | CUERPO0 M5;
-M6: CIERRALLAVE M7;
-M7: /* empty */ | MODULO0;
+modulo: FUNC IDE PAO m1 PAC LLO m2 m6;
+m1: /* empty */ | param;
+m2: m3 m4;
+m3: /* empty */ | var;
+m4: cuerpo m5;
+m5: /* empty */ | cuerpo M5;
+m6: LLO m7;
+m7: /* empty */ | modulo;
 
-PARAM0: VAR ID Pa0;
-Pa0: /* empty */|COMA PARAM0;
+param: VAR ID pa;
+pa: /* empty */|C param;
 
-CUERPO0: ASIGNACION0 C1 | CONDICION0 | CICLO0 | PREDEF0 C1 | IMPRIMIR0 C1;
-C1: PUNTOCOMA;
+cuerpo: asignacion C1 | condicion | ciclo | predef C1 | imprimir C1;
+C1: PC;
 
-ASIGN0: id As1 ASIGNACION EXP0;
-As1: /* empty */ | ABRECORCH EXP0 CIERRACORCH;
+asignacion: id as ASIGNACION exp;
+as: /* empty */ | COO exp COC;
 
 
-LOGICO0: EXPRESION0 L1;
-L1: /* empty */ | Y EXPRESION0 | O EXPRESION0;
+logico: expresion l;
+l1: /* empty */ | AND l2 | OR l2;
+l2: expresion | pruebas;
 
-EXPRESION0: EXP0 Expr1 EXP0;
-Expr1: MAYOR | MENOR | IGUAL | DIFERENTE;
+expresion: exp expr exp;
+expr: MAY | MEN | IGUAL | DIF;
 
-EXP0: TERMINO0 Exp1;
-Exp1: /* empty */ | MAS EXP0 | MENOS EXP0;
+exp: termino exp1;
+exp1: /* empty */ | MAS exp | MENOS exp;
 
-TERMINO0: FACTOR0 Te1;
-Te1: /* empty */ | POR TERMINO0 | ENTRE TERMINO0;
+termino: factor te;
+te: /* empty */ | POR termino | ENTRE termino;
 
-FACTOR0: VARCTE0 | PREDEF0 | ABREPAREN EXP0 CIERRAPAREN;
+factor: varcte | pedef | PAO exp PAC;
 
-VARCTE0: ID VarC1 | int | float | string | ToF;
-Varc1: /* empty */ |  ABRECORCH EXP0 CIERRACORCH;
+varcte: ID varcte1 | CINT | CFLOAT | STRING | TRUE | FALSE;
+varcte1: /* empty */ |  COO exp COC;
 
-COND0: SI ABREPAREN LOGICO0 CIERRAPAREN ABRELLAVE Co1 CIERRALLAVE Co3;
-Co1: CUERPO0 Co2;
-Co2: /* empty */ | CUERPO0 Co2;
-Co3: /* empty */ | SINO ABRELLAVE Co1 CIERRALLAVE;
+condicion: SI PAO logico PAC LLO co1 LLC co3;
+co1: cuerpo co2;
+co2: /* empty */ | cuerpo co2;
+co3: /* empty */ | SINO LLO co1 LLC;
 
-CICLO0: MIENTRAS ABREPAREN LOGIC0 CIERRAPAREN ABRELLAVE Ci1 CIERRALLAVE;
-Ci1: CUERPO0 Ci2;
-Ci2: /* empty */ | CUERPO0 Ci2;
+ciclo: MIENTRAS PAO logico PAC LLO ci1 LLC;
+ci1: cuerpo ci2;
+ci2: /* empty */ | cuerpo ci2;
 
-PREDEF0: PDFUNC0 ABREPAREN Prdf1 CIERRAPAREN;
-Prdf1: EXP0 Prdf2;
-Prdf2: /* empty */ | COMA EXP0 Prdf2;
+preder: pdfunc PAO pred1 PAC;
+pred1: exp pred2;
+pred2: /* empty */ | C exp pred2;
 
-IMPRIMIR0: IMPRIMIR ABREPAREN Imp1 CIERRAPAREN;
-Imp1: VARCTE0 Imp2;
-Imp2: /* empty */ | MAS VARCTE0 Imp2;
+imprimir: IMPRIMIR PAO imp1 PAC;
+imp1: varcte imp2;
+imp2: /* empty */ | MAS varcte imp2;
 
-PDFUNC0:DETENER | MOVER_ADELANTE | ROTAR | RECOGER_OBJ | CARGAR_MAPA | TERMINAR | IDE;
+pdfunc:DETENER | MOVER_ADELANTE | ROTAR | RECOGER_OBJ | CARGAR_MAPA | TERMINAR | IDE;
 
-PRUEBAS: CAMINO_DESPEJADO | CAMINO_BLOQUEADO | INTERSECCION_OBJ | TENER_TODOS_OBJS;
+pruebas: CAMINO_DESPEJADO | CAMINO_BLOQUEADO | INTERSECCION_OBJ | TENER_TODOS_OBJS;
 
 %%
 
