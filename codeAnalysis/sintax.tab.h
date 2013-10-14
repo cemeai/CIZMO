@@ -37,53 +37,79 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     PROGRAMA = 258,
-     COND = 259,
-     FUNC = 260,
-     SINO = 261,
-     IMPRIMIR = 262,
-     MIENTRAS = 263,
-     DETENER = 264,
-     MOVER_ADELANTE = 265,
-     MOVER_ATRAS = 266,
-     VERDAD = 267,
-     FALSO = 268,
-     ARREGLO = 269,
-     ROTAR = 270,
-     CARGARMAPA = 271,
-     VAR = 272,
-     DP = 273,
-     C = 274,
-     PC = 275,
-     PUNTO = 276,
-     LLO = 277,
-     LLC = 278,
-     PAO = 279,
-     PAC = 280,
-     MAS = 281,
-     MENOS = 282,
-     POR = 283,
-     ENTRE = 284,
-     AND = 285,
-     OR = 286,
-     NOT = 287,
-     DIF = 288,
-     IGUAL = 289,
-     MAY = 290,
-     MAYIG = 291,
-     MEN = 292,
-     MENIG = 293,
-     ID = 294,
-     CINT = 295,
-     CFLOAT = 296,
-     STRING = 297
+     CINT = 258,
+     CFLOAT = 259,
+     STRING = 260,
+     ID = 261,
+     IDE = 262,
+     PROGRAMA = 263,
+     FUNC = 264,
+     COND = 265,
+     SI = 266,
+     SINO = 267,
+     VAR = 268,
+     IMPRIMIR = 269,
+     MIENTRAS = 270,
+     DETENER = 271,
+     MOVER_ADELANTE = 272,
+     MOVER_ATRAS = 273,
+     ROTAR = 274,
+     CARGAR_MAPA = 275,
+     LLO = 276,
+     LLC = 277,
+     COO = 278,
+     COC = 279,
+     PAO = 280,
+     PAC = 281,
+     ASIGNACION = 282,
+     IGUAL = 283,
+     MAY = 284,
+     MAYIG = 285,
+     MENIG = 286,
+     MEN = 287,
+     NOT = 288,
+     DIF = 289,
+     MAS = 290,
+     MENOS = 291,
+     POR = 292,
+     ENTRE = 293,
+     C = 294,
+     PC = 295,
+     PUNTO = 296,
+     DP = 297,
+     TRUE = 298,
+     FALSE = 299,
+     AND = 300,
+     OR = 301,
+     CAMINO_DESPEJADO = 302,
+     CAMINO_BLOQUEADO = 303,
+     INTERSECCION_OBJ = 304,
+     TENER_TODOS_OBJS = 305,
+     RECOGER_OBJ = 306,
+     TERMINAR = 307
    };
 #endif
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+{
+
+/* Line 2068 of yacc.c  */
+#line 15 "sintax.y"
+
+	int ival;
+	float fval;
+	char *sval;
+	char *id;
+	char *ide;
+
+
+
+/* Line 2068 of yacc.c  */
+#line 112 "sintax.tab.h"
+} YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

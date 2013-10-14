@@ -1,66 +1,62 @@
 %{
-#include "sintax.tab.h"
+#include <cstdio>
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
+using namespace std;
+#define YY_DECL extern "C" int yylex()
+
+#include "sintax.tab.h"  // to get the token types that we return
+
 %}
-%%option noyywrap
-	digit	[0-9]
-	upper_l	[A-Z]
-	lower_l	[a-z]
-	id = {lower_l}{lower_l | upper_l | digit}* 
-	ide= {upper_l}{lower_l | upper_l | digit}* 
-	cteInt = {digit}{digit}*
-	cteFloat = digit {digit}*"."digit{digit}*
-	cteString = "\"".*"\""
-	coment = "\"""*".*"*""\""
 %%
-	[\t \n]+ 	/* CaracteresEnBlanco*/ ;
-	"PROGRAMA" 	{return (PROGRAMA);}
-	"COND" 	   	{return (COND);}
-	"FUNC" 		{return (FUNC);}
-	"SINO" 		{return (SINO);}
-	"IMPRIMIR" 	{return (IMPRIMIR);}
-	"MIENTRAS" 	{return (MIENTRAS);}
-	"DETENER" 	{return (DETENER);}
-	"MOVER_ADELANTE"{return (MOVER_ADELANTE);}
-	"CARGAR_MAPA"	{return (CARGAR_MAPA);}
-	"MOVER_ATRAS" 	{return (MOVER_ATRAS);}
-	"RECOGER_OBJ" 	{return (RECOGER_OBJ);}
-	"TERMINAR" 	{return (TERMINAR);}
-	"CAMINO_DESPEJADO" 	{return (CAMINO_DESPEJADO);}
-	"CAMINO_BLOQUEADO" 	{return (CAMINO_BLOQUEADO);}
-	"INTERSECCION_OBJ" 	{return (INTERSECCION_OBJ);}
-	"TENER_TODOS_OBJS" 	{return (TENER_TODOS_OBJS);}
-	"RECOGER_OBJ" 	{return (RECOGER_OBJ);}
-	"VERDAD" 	{return (TRUE);}
-	"FALSO" 	{return (FALSE);}
-	"ROTAR" 	{return (ROTAR);}
-	"CARGARMAPA" 	{return (CARGARMAPA);}
-	"VAR" 		{return (VAR);}
-	":" 		{return (DP);}
-	"," 		{return (C);}
-	";" 		{return (PC);}
-	"." 		{return (PUNTO);}
-	"{" 		{return (LLO);}
-	"}" 		{return (LLC);}
-	"(" 		{return (PAO);}
-	")" 		{return (PAC);}
-	"[" 		{return (COO);}
-	"]" 		{return (COC);}
-	"+" 		{return (MAS);}
-	"-" 		{return (MENOS);}
-	"*" 		{return (POR);}
-	"/" 		{return (ENTRE);}
-	"&&" 		{return (AND);}
-	"||" 		{return (OR);}
-	"!" 		{return (NOT);}
-	"=" 		{return (DIF);}
-	"!=" 		{return (IGUAL);}
-	">" 		{return (MAY);}
-	">=" 		{return (MAYIG);}
-	"<" 		{return (MEN);}
-	"<=" 		{return (MENIG);}
-	{id} 		{return (ID);}
-	{ide} 		{return (IDE);}
-	{cteInt}	{return (CINT);}
-	{cteFloat} 	{return (CFLOAT);}
-	{cteString}	{return (STRING);}
+PROGRAMA {return PROGRAMA;}
+COND {return COND;}
+FUNC {return FUNC;}
+SINO {return SINO;}
+IMPRIMIR {return IMPRIMIR;}
+MIENTRAS {return MIENTRAS;}
+DETENER {return DETENER;}
+MOVER_ADELANTE {return MOVER_ADELANTE;}
+CARGAR_MAPA {return CARGAR_MAPA;}
+MOVER_ATRAS {return MOVER_ATRAS;}
+TERMINAR {return TERMINAR;}
+CAMINO_DESPEJADO {return CAMINO_DESPEJADO;}
+CAMINO_BLOQUEADO {return CAMINO_BLOQUEADO;}
+INTERSECCION_OBJ {return INTERSECCION_OBJ;}
+TENER_TODOS_OBJS {return TENER_TODOS_OBJS;}
+RECOGER_OBJ {return RECOGER_OBJ;}
+VERDAD {return TRUE;}
+FALSO {return FALSE;}
+ROTAR {return ROTAR;}
+VAR {return VAR;}
+":" {return DP;}
+"," {return C;}
+";" {return PC;}
+"." {return PUNTO;}
+"{" {return LLO;}
+"}" {return LLC;}
+"(" {return PAO;}
+")" {return PAC;}
+"[" {return COO;}
+"]" {return COC;}
+"+" {return MAS;}
+"-" {return MENOS;}
+"*" {return POR;}
+"/" {return ENTRE;}
+"&&" {return AND;}
+"||" {return OR;}
+"!" {return NOT;}
+"=" {return ASIGNACION;}
+"==" {return IGUAL;}
+"!=" {return DIF;}
+">" {return MAY;}
+">=" {return MAYIG;}
+"<" {return MEN;}
+"<=" {return MENIG;}
+[a-z][a-z|A-z|0-9]* {yylval.sval = strdup(yytext); return ID;}
+[A-Z][a-z|A-z|0-9]* {yylval.sval = strdup(yytext); return IDE;}
+[0-9]* {yylval.fval = atoi(yytext); return CINT;}
+[0-9][0-9]*"."[0-9][0-9]* {yylval.fval = atof(yytext); return CFLOAT;}
+[a-zA-Z0-9]+ {yylval.sval = strdup(yytext); return STRING;}
 %%

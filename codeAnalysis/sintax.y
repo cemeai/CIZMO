@@ -1,8 +1,30 @@
 %{
 #include <stdio.h>
 #include <string.h>
+#include <cstdio>
+#include <iostream>
+using namespace std;
+
+// stuff from flex that bison needs to know about:
+extern "C" int yylex();
+extern "C" int yyparse();
+extern "C" FILE *yyin;
+ 
+void yyerror(const char *s);
 %}
-%token PROGRAMA FUNC COND SI SINO VAR IMPRIMIR MIENTRAS DETENER MOVER_ADELANTE MOVER_ATRAS IDE ROTAR CARGAR_MAPA LLO LLC COO COC PAO PAC ID ASIGNACION IGUAL MAY MEN DIF MAS MENOS POR ENTRE C PC PUNTO DP CINT CFLOAT STRING TRUE FALSE AND OR CAMINO_DESPEJADO CAMINO_BLOQUEADO INTERSECCION_OBJ TENER_TODOS_OBJS RECOGER_OBJ TERMINAR
+%union {
+	int ival;
+	float fval;
+	char *sval;
+	char *id;
+	char *ide;
+}
+%token <ival> CINT
+%token <favl> CFLOAT
+%token <sval> STRING
+%token <id> ID
+%token <ide> IDE
+%token PROGRAMA FUNC COND SI SINO VAR IMPRIMIR MIENTRAS DETENER MOVER_ADELANTE MOVER_ATRAS ROTAR CARGAR_MAPA LLO LLC COO COC PAO PAC  ASIGNACION IGUAL MAY MAYIG MENIG MEN NOT DIF MAS MENOS POR ENTRE C PC PUNTO DP TRUE FALSE AND OR CAMINO_DESPEJADO CAMINO_BLOQUEADO INTERSECCION_OBJ TENER_TODOS_OBJS RECOGER_OBJ TERMINAR
 %%
 programa: PROGRAMA ID LLO p1 p3 LLC p2;
 p1: /* empty */ | var;
@@ -76,15 +98,26 @@ pdfunc:DETENER | MOVER_ADELANTE | ROTAR | RECOGER_OBJ | CARGAR_MAPA | TERMINAR |
 pruebas: CAMINO_DESPEJADO | CAMINO_BLOQUEADO | INTERSECCION_OBJ | TENER_TODOS_OBJS;
 
 %%
-
-main()
-{
-	if (yyparse()==0)
-		printf("PROGRAMA ACEPTADO\n");
-	else
-		printf("ERROR\n");
+main() {
+	// open a file handle to a particular file:
+	FILE *myfile = fopen("test", "r");
+	// make sure it is valid:
+	if (!myfile) {
+		cout << "I can't open the file!" << endl;
+		return -1;
+	}
+	// set flex to read from it instead of defaulting to STDIN:
+	yyin = myfile;
+	
+	// parse through the input until there is no more:
+	do {
+		yyparse();
+	} while (!feof(yyin));
+	
 }
-yyerror(s){
-	char *;
-	fprintf(stderr, "%s\n",s);
+
+void yyerror(const char *s) {
+	cout << "EEK, parse error!  Message: " << s << endl;
+	// might as well halt now:
+	exit(-1);
 }
