@@ -1,6 +1,6 @@
-#line 2 "codeAnalysis/tokens.cpp"
+#line 2 "tokens.cpp"
 
-#line 4 "codeAnalysis/tokens.cpp"
+#line 4 "tokens.cpp"
 
 #define  YY_INT_ALIGNED short int
 
@@ -454,10 +454,10 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "codeAnalysis/lexical.l"
-#line 2 "codeAnalysis/lexical.l"
+#line 1 "lexical.l"
+#line 2 "lexical.l"
 #include "sintax.tab.h"
-#line 461 "codeAnalysis/tokens.cpp"
+#line 461 "tokens.cpp"
 
 #define INITIAL 0
 
@@ -644,7 +644,7 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 4 "codeAnalysis/lexical.l"
+#line 4 "lexical.l"
 
 	digit	[0-9]
 	upper_l	[A-Z]
@@ -655,7 +655,7 @@ YY_DECL
 	cteFloat = digit {digit}*"."digit{digit}*
 	cteString = "\"".*"\""
 	coment = "\"""*".*"*""\""
-#line 659 "codeAnalysis/tokens.cpp"
+#line 659 "tokens.cpp"
 
 	if ( !(yy_init) )
 		{
@@ -740,10 +740,10 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 14 "codeAnalysis/lexical.l"
+#line 14 "lexical.l"
 ECHO;
 	YY_BREAK
-#line 747 "codeAnalysis/tokens.cpp"
+#line 747 "tokens.cpp"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1741,7 +1741,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 14 "codeAnalysis/lexical.l"
+#line 14 "lexical.l"
 
 
 	[\t \n]+ 	/* CaracteresEnBlanco*/ ;
@@ -1753,9 +1753,17 @@ void yyfree (void * ptr )
 	"MIENTRAS" 	{return (MIENTRAS);}
 	"DETENER" 	{return (DETENER);}
 	"MOVER_ADELANTE"{return (MOVER_ADELANTE);}
+	"CARGAR_MAPA"	{return (CARGAR_MAPA);}
 	"MOVER_ATRAS" 	{return (MOVER_ATRAS);}
-	"VERDAD" 	{return (VERDAD);}
-	"FALSO" 	{return (FALSO);}
+	"RECOGER_OBJ" 	{return (RECOGER_OBJ);}
+	"TERMINAR" 	{return (TERMINAR);}
+	"CAMINO_DESPEJADO" 	{return (CAMINO_DESPEJADO);}
+	"CAMINO_BLOQUEADO" 	{return (CAMINO_BLOQUEADO);}
+	"INTERSECCION_OBJ" 	{return (INTERSECCION_OBJ);}
+	"TENER_TODOS_OBJS" 	{return (TENER_TODOS_OBJS);}
+	"RECOGER_OBJ" 	{return (RECOGER_OBJ);}
+	"VERDAD" 	{return (TRUE);}
+	"FALSO" 	{return (FALSE);}
 	"ROTAR" 	{return (ROTAR);}
 	"CARGARMAPA" 	{return (CARGARMAPA);}
 	"VAR" 		{return (VAR);}
@@ -1767,6 +1775,8 @@ void yyfree (void * ptr )
 	"}" 		{return (LLC);}
 	"(" 		{return (PAO);}
 	")" 		{return (PAC);}
+	"[" 		{return (COO);}
+	"]" 		{return (COC);}
 	"+" 		{return (MAS);}
 	"-" 		{return (MENOS);}
 	"*" 		{return (POR);}

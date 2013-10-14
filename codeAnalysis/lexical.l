@@ -21,6 +21,7 @@
 	"MIENTRAS" 	{return (MIENTRAS);}
 	"DETENER" 	{return (DETENER);}
 	"MOVER_ADELANTE"{return (MOVER_ADELANTE);}
+	"CARGAR_MAPA"	{return (CARGAR_MAPA);}
 	"MOVER_ATRAS" 	{return (MOVER_ATRAS);}
 	"RECOGER_OBJ" 	{return (RECOGER_OBJ);}
 	"TERMINAR" 	{return (TERMINAR);}
@@ -28,6 +29,7 @@
 	"CAMINO_BLOQUEADO" 	{return (CAMINO_BLOQUEADO);}
 	"INTERSECCION_OBJ" 	{return (INTERSECCION_OBJ);}
 	"TENER_TODOS_OBJS" 	{return (TENER_TODOS_OBJS);}
+	"RECOGER_OBJ" 	{return (RECOGER_OBJ);}
 	"VERDAD" 	{return (TRUE);}
 	"FALSO" 	{return (FALSE);}
 	"ROTAR" 	{return (ROTAR);}
