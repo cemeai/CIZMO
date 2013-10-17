@@ -3,14 +3,21 @@
 #include <string.h>
 #include <cstdio>
 #include <iostream>
+#include "../headers/funcdirectory.h"
 using namespace std;
 
 // stuff from flex that bison needs to know about:
 extern "C" int yylex();
 extern "C" int yyparse();
 extern "C" FILE *yyin;
+
+int contFunc = 0;
+int contParam = 0;
+int contVars = 0;
+int scope = 0;
  
 void yyerror(const char *s);
+
 %}
 %union {
 	int ival;
@@ -26,26 +33,26 @@ void yyerror(const char *s);
 %token <ide> IDE
 %token PROGRAMA FUNC COND SI SINO VAR IMPRIMIR MIENTRAS DETENER MOVER_ADELANTE MOVER_ATRAS ROTAR CARGAR_MAPA LLO LLC COO COC PAO PAC  ASIGNACION IGUAL MAY MAYIG MENIG MEN NOT DIF MAS MENOS POR ENTRE C PC PUNTO DP TRUE FALSE AND OR CAMINO_DESPEJADO CAMINO_BLOQUEADO INTERSECCION_OBJ TENER_TODOS_OBJS RECOGER_OBJ TERMINAR
 %%
-programa: PROGRAMA ID LLO p1 p3 LLC p2;
+programa: { agregaFunc("global", contFunc); } p1 p2 PROGRAMA ID LLO p1 p3 LLC;
 p1: /* empty */ | var;
 p2: /* empty */ | modulo;
 p3: cuerpo p4;
 p4: /* empty */ | cuerpo p4;
 
-var: VAR ID v1 PC;
+var: VAR ID  { contVars++;  } v1 PC;
 v1: v2 | COO CINT COC;
-v2: IGUAL v3;
+v2: ASIGNACION v3;
 v3: exp | LLO v4 LLC;
 v4: CINT v5;
 v5: /* empty */ | C CINT v5;
 
-modulo: FUNC IDE PAO m1 PAC LLO m2 m6;
+modulo: FUNC IDE { findFunc( $2 ); agregaFunc($2, ++contFunc); } PAO m1 PAC LLO m2 LLC m6;
 m1: /* empty */ | param;
 m2: m3 m4;
 m3: /* empty */ | var;
 m4: cuerpo m5;
 m5: /* empty */ | cuerpo m5;
-m6: LLO m7;
+m6: m7;
 m7: /* empty */ | modulo;
 
 param: VAR ID pa;
@@ -63,7 +70,7 @@ l1: /* empty */ | AND l2 | OR l2;
 l2: expresion | pruebas;
 
 expresion: exp expr exp;
-expr: MAY | MEN | IGUAL | DIF;
+expr: MAY | MEN | MAYIG | MENIG | IGUAL | DIF;
 
 exp: termino exp1;
 exp1: /* empty */ | MAS exp | MENOS exp;
@@ -99,25 +106,15 @@ pruebas: CAMINO_DESPEJADO | CAMINO_BLOQUEADO | INTERSECCION_OBJ | TENER_TODOS_OB
 
 %%
 main() {
-	// open a file handle to a particular file:
-	FILE *myfile = fopen("test", "r");
-	// make sure it is valid:
-	if (!myfile) {
-		cout << "I can't open the file!" << endl;
-		return -1;
-	}
-	// set flex to read from it instead of defaulting to STDIN:
-	yyin = myfile;
-	
-	// parse through the input until there is no more:
-	do {
-		yyparse();
-	} while (!feof(yyin));
+	if (yyparse()==0)
+		printf("PROGRAMA ACEPTADO\n");
+	else
+		printf("ERROR\n");
 	
 }
 
 void yyerror(const char *s) {
-	cout << "EEK, parse error!  Message: " << s << endl;
+	cout << "Parse error!  Message: " << s << endl;
 	// might as well halt now:
 	exit(-1);
 }
