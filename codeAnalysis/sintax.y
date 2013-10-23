@@ -1,9 +1,8 @@
 %{
 #include <stdio.h>
-#include <string.h>
 #include <cstdio>
 #include <iostream>
-#include "../headers/funcdirectory.h"
+#include "../semantica/funcdirectory.cpp"
 using namespace std;
 
 // stuff from flex that bison needs to know about:
@@ -22,34 +21,42 @@ void yyerror(const char *s);
 %union {
 	int ival;
 	float fval;
-	char *sval;
 	char *id;
 	char *ide;
+	char *sval;
 }
 %token <ival> CINT
-%token <favl> CFLOAT
-%token <sval> STRING
-%token <id> ID
+%token <fval> CFLOAT
 %token <ide> IDE
-%token PROGRAMA FUNC COND SI SINO VAR IMPRIMIR MIENTRAS DETENER MOVER_ADELANTE MOVER_ATRAS ROTAR CARGAR_MAPA LLO LLC COO COC PAO PAC  ASIGNACION IGUAL MAY MAYIG MENIG MEN NOT DIF MAS MENOS POR ENTRE C PC PUNTO DP TRUE FALSE AND OR CAMINO_DESPEJADO CAMINO_BLOQUEADO INTERSECCION_OBJ TENER_TODOS_OBJS RECOGER_OBJ TERMINAR
+%token <id> ID
+%token <sval> STRING
+%token PROGRAMA FUNC COND SI SINO VAR IMPRIMIR MIENTRAS 
+		DETENER MOVER_ADELANTE MOVER_ATRAS ROTAR 
+		CARGAR_MAPA LLO LLC COO COC PAO PAC  ASIGNACION 
+		IGUAL MAY MAYIG MENIG MEN NOT DIF MAS MENOS POR 
+		ENTRE C PC PUNTO DP TRUE FALSE AND OR 
+		CAMINO_DESPEJADO CAMINO_BLOQUEADO INTERSECCION_OBJ
+		TENER_TODOS_OBJS RECOGER_OBJ TERMINAR
 %%
-programa: { agregaFunc("global", contFunc); } p1 p2 PROGRAMA ID LLO p1 p3 LLC;
-p1: /* empty */ | var;
+programa: { agregaFunc((char*)"global", contFunc); } p1 p2 PROGRAMA { agregaFunc((char*)"main", ++contFunc); } LLO p1 p3 LLC;
+p1: /* empty */ | var p1;
 p2: /* empty */ | modulo;
 p3: cuerpo p4;
 p4: /* empty */ | cuerpo p4;
 
-var: VAR ID  { contVars++;  } v1 PC;
+var: VAR ID  { contVars++; agregaVar($2); } v1 PC;
 v1: v2 | COO CINT COC;
 v2: ASIGNACION v3;
 v3: exp | LLO v4 LLC;
 v4: CINT v5;
 v5: /* empty */ | C CINT v5;
 
-modulo: FUNC IDE { findFunc( $2 ); agregaFunc($2, ++contFunc); } PAO m1 PAC LLO m2 LLC m6;
+modulo: FUNC ID { 
+	if( findFunc($2) ){ cout << "hey"; agregaFunc($2, ++contFunc); }
+} PAO m1 PAC LLO m2 LLC m6;
 m1: /* empty */ | param;
 m2: m3 m4;
-m3: /* empty */ | var;
+m3: /* empty */ | var m3;
 m4: cuerpo m5;
 m5: /* empty */ | cuerpo m5;
 m6: m7;
@@ -100,7 +107,7 @@ imprimir: IMPRIMIR PAO imp1 PAC;
 imp1: varcte imp2;
 imp2: /* empty */ | MAS varcte imp2;
 
-pdfunc:DETENER | MOVER_ADELANTE | ROTAR | RECOGER_OBJ | CARGAR_MAPA | TERMINAR | IDE;
+pdfunc:DETENER | MOVER_ADELANTE | ROTAR | RECOGER_OBJ | CARGAR_MAPA | TERMINAR | ID;
 
 pruebas: CAMINO_DESPEJADO | CAMINO_BLOQUEADO | INTERSECCION_OBJ | TENER_TODOS_OBJS;
 

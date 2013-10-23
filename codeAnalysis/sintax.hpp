@@ -39,9 +39,9 @@
    enum yytokentype {
      CINT = 258,
      CFLOAT = 259,
-     STRING = 260,
+     IDE = 260,
      ID = 261,
-     IDE = 262,
+     STRING = 262,
      PROGRAMA = 263,
      FUNC = 264,
      COND = 265,
@@ -97,13 +97,13 @@ typedef union YYSTYPE
 {
 
 /* Line 2068 of yacc.c  */
-#line 19 "sintax.y"
+#line 21 "sintax.y"
 
 	int ival;
 	float fval;
-	char *sval;
 	char *id;
 	char *ide;
+	char *sval;
 
 
 
