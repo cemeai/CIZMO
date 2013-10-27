@@ -35,28 +35,12 @@ void agregaVar( char* nameVar ){
 			exist = true;
 	if( !exist )functionsL.rbegin()->vars[nameVar] = 0;
 	else cout << "Ya existe la variable";
-
-	/*if(tempVars.find(nameVar) == tempVars.end()){
-		cout << "No encontre la variable";
-		functionsL.rbegin()->vars[nameVar] = 0;
-	}else{
-		cout << "La variable ya existe :( ";
-	}
-
-	if( functionsL.begin()->vars.count(nameVar) == 0 &&
-		functionsL.rbegin()->vars.count(nameVar) == 0){
-		cout << "ENTRO";
-		functionsL.rbegin()->vars.insert( pair<char*,int> (nameVar, 0));
-		cout << functionsL.rbegin()->vars.size();
-	}else cout << "TONTO ya existe";*/
 }
 
-void agregaTipoVar(int scope, char* nameVar, int type){
+void agregaTipoVar(char* nameVar, int type){
 	//checar que sea el primero o el ultimo func si type es cero cambiar sino marcar error
-	//if( functionsL.begin()->vars.find(nameVar) != functionsL->vars.end() ){
-	//}
 
-	//functionsL.rbegin();
+	functionsL.rbegin()->vars[nameVar] = type;
 	//if( it == scope && it->vars[nameVar] == 0 )
 	//	it->vars[nameVar] = type;
 }

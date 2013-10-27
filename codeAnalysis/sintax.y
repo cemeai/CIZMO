@@ -14,6 +14,7 @@ int contFunc = 0;
 int contParam = 0;
 int contVars = 0;
 int scope = 0;
+char* nameVar = NULL;
  
 void yyerror(const char *s);
 
@@ -44,7 +45,7 @@ p2: /* empty */ | modulo;
 p3: cuerpo p4;
 p4: /* empty */ | cuerpo p4;
 
-var: VAR ID  { contVars++; agregaVar($2); } v1 PC;
+var: VAR ID  { contVars++; nameVar = $2; agregaVar(nameVar); } v1 PC;
 v1: v2 | COO CINT COC;
 v2: ASIGNACION v3;
 v3: exp | LLO v4 LLC;
@@ -87,7 +88,12 @@ te: /* empty */ | POR termino | ENTRE termino;
 
 factor: varcte | predef | PAO exp PAC;
 
-varcte: ID varcte1 | CINT | CFLOAT | STRING | TRUE | FALSE;
+varcte: ID varcte1 | 
+			CINT   { if(nameVar != NULL){ agregaTipoVar( nameVar, 1); nameVar = NULL;}} | // 1 int
+			CFLOAT { if(nameVar != NULL){ agregaTipoVar( nameVar, 2); nameVar = NULL;}} | // 2 float
+			STRING { if(nameVar != NULL){ agregaTipoVar( nameVar, 3); nameVar = NULL;}} | // 3 string
+			TRUE   { if(nameVar != NULL){ agregaTipoVar( nameVar, 4); nameVar = NULL;}} | // 4 bool
+			FALSE  { if(nameVar != NULL){ agregaTipoVar( nameVar, 4); nameVar = NULL;}};  // 0 noType
 varcte1: /* empty */ |  COO exp COC;
 
 condicion: SI PAO logico PAC LLO co1 LLC co3;

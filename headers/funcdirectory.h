@@ -9,5 +9,5 @@ using namespace std;
 struct functions;
 void agregaFunc( char* nameFunc, int id );
 void agregaVar( char* nameVar );
-void agregaTipoVar(int scope, char* nameVar, int type);
+void agregaTipoVar(char* nameVar, int type);
 bool findFunc( char* nameFunc );
