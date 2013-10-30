@@ -1,16 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "../headers/cuadruplos.h"
 
-typedef struct Cuadruplo {
-	int operador;
-	int dirOperando1;
-	int dirOperando2;
-	int temp;
-	struct Cuadruplo *ptr;
-}Cuadruplo;
-
-Cuadruplo addCuad(Cuadruplo *Cuad_ptr, int operador, int dirOp1, int dirOp2, int temp) {
-	Cuadruplo *cuad_temp = (struct Cuadruplo *)malloc(sizeof(struct Cuadruplo));
+void addCuad(cuadruplo *Cuad_ptr, int operador, int dirOp1, int dirOp2, int temp) {
+	cuadruplo *cuad_temp = (cuadruplo*) malloc( sizeof (cuadruplo));
 	cuad_temp->operador = operador;
 	cuad_temp->dirOperando1 = dirOp1;
 	cuad_temp->dirOperando2 = dirOp2;
@@ -30,7 +21,7 @@ Cuadruplo addCuad(Cuadruplo *Cuad_ptr, int operador, int dirOp1, int dirOp2, int
 		return *cuad_temp;
 	}
 	
-void printAllCuads(Cuadruplo *cuadruplo) {
+void getAllCuads(Cuadruplo *cuadruplo) {
 	Cuadruplo *cuad;
 	cuad = cuadruplo;
 	int contador = 1;

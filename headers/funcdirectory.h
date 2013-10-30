@@ -3,8 +3,17 @@
 #include <list>
 #include <stdlib.h>
 #include <iostream>
-#include <cstring>
 using namespace std;
+
+struct functions{
+	int scope;
+	char* name;
+	int parametros;
+	map<char*, int> vars;
+};
+
+list<functions> functionsL;
+functions* funcion;
 
 struct functions;
 void agregaFunc( char* nameFunc, int id );

@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <iostream>
 #include "../semantica/funcdirectory.cpp"
+#include "../semantica/cubo.cpp"
 using namespace std;
 
 // stuff from flex that bison needs to know about:
@@ -10,6 +11,8 @@ extern "C" int yylex();
 extern "C" int yyparse();
 extern "C" FILE *yyin;
 
+//numeros de operadores 1  2  3  4  5  6  7  8  9  10 11 12 13
+//--------------------- +  -  *  /  =  != == <  <= >  >= && ||
 int contFunc = 0;
 int contParam = 0;
 int contVars = 0;
@@ -93,7 +96,7 @@ varcte: ID varcte1 |
 			CFLOAT { if(nameVar != NULL){ agregaTipoVar( nameVar, 2); nameVar = NULL;}} | // 2 float
 			STRING { if(nameVar != NULL){ agregaTipoVar( nameVar, 3); nameVar = NULL;}} | // 3 string
 			TRUE   { if(nameVar != NULL){ agregaTipoVar( nameVar, 4); nameVar = NULL;}} | // 4 bool
-			FALSE  { if(nameVar != NULL){ agregaTipoVar( nameVar, 4); nameVar = NULL;}};  // 0 noType
+			FALSE  { if(nameVar != NULL){ agregaTipoVar( nameVar, 4); nameVar = NULL;}};  // 0 noType	
 varcte1: /* empty */ |  COO exp COC;
 
 condicion: SI PAO logico PAC LLO co1 LLC co3;
