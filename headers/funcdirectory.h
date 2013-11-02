@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <list>
+#include <string.h>
 #include <stdlib.h>
 #include <iostream>
 using namespace std;
@@ -15,7 +16,6 @@ struct functions{
 list<functions> functionsL;
 functions* funcion;
 
-struct functions;
 void agregaFunc( char* nameFunc, int id );
 void agregaVar( char* nameVar );
 void agregaTipoVar(char* nameVar, int type);

@@ -1,16 +1,6 @@
 #include "../headers/funcdirectory.h"
 
-struct functions{
-	int scope;
-	char* name;
-	int parametros;
-	map<char*, int> vars;
-};
-
-list<functions> functionsL;
-functions* funcion;
-
-void agregaFunc( char* nameFunc, int scope ){
+void addFunc( char* nameFunc, int scope ){
 	if( functionsL.empty() && strcmp( nameFunc, "global") != 0 ){
 		funcion = (functions*) malloc( sizeof (functions));
 		funcion->scope = scope++;
@@ -23,26 +13,28 @@ void agregaFunc( char* nameFunc, int scope ){
 	functionsL.push_back(*funcion);
 }
 
-void agregaVar( char* nameVar ){
-	bool exist = 0;
+void addVar( char* nameVar ){
+	functionsL.rbegin()->vars[nameVar] = 0;
+}
+
+bool findVar( char* nameVar){
+	bool exist = false;
+	//checa si la variable existe globalmente
 	map<char*, int> tempVars = functionsL.begin()->vars;
 	for( map<char*, int>::iterator it = tempVars.begin(); it != tempVars.end(); it++)
 		if(strcmp(it->first, nameVar) == 0)
 			exist = true;
+	//checa si la variable existe en la funcion actual
 	tempVars = functionsL.rbegin()->vars;
 	for( map<char*, int>::iterator it = tempVars.begin(); it != tempVars.end(); it++)
 		if(strcmp(it->first, nameVar) == 0)
 			exist = true;
-	if( !exist )functionsL.rbegin()->vars[nameVar] = 0;
-	else cout << "Ya existe la variable";
+	//regresa  exist true si existe y false si no
+	return exist;
 }
 
-void agregaTipoVar(char* nameVar, int type){
-	//checar que sea el primero o el ultimo func si type es cero cambiar sino marcar error
-
+void addTypeVar(char* nameVar, int type){
 	functionsL.rbegin()->vars[nameVar] = type;
-	//if( it == scope && it->vars[nameVar] == 0 )
-	//	it->vars[nameVar] = type;
 }
 
 bool findFunc( char* nameFunc){

@@ -1,12 +1,13 @@
 #include "../headers/cuadruplos.h"
 
-void addCuad(cuadruplo *Cuad_ptr, int operador, int dirOp1, int dirOp2, int temp) {
-	cuadruplo *cuad_temp = (cuadruplo*) malloc( sizeof (cuadruplo));
-	cuad_temp->operador = operador;
-	cuad_temp->dirOperando1 = dirOp1;
-	cuad_temp->dirOperando2 = dirOp2;
-	cuad_temp->temp = temp;
-	cuad_temp->ptr = NULL;
+void addCuad(int index, int operador, int dirOp1, int dirOp2, int temp) {
+	cuad = (cuadruplo*) malloc( sizeof (cuadruplo));
+	cuad->numCuad = index;
+	cuad->operador = operador;
+	cuad->dirOperando1 = dirOp1;
+	cuad->dirOperando2 = dirOp2;
+	cuad->temp = temp;
+	cuad->ptr = NULL;
 
 	if( Cuad_ptr == NULL ){
 		return *cuad_temp;

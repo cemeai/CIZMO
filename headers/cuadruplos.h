@@ -14,6 +14,10 @@ typedef struct cuadruplo {
 
 list<cuadruplo> cuadL;
 cuadruplo* cuad;
+stack<int> operador;
+stack<int> operando;
+stack<int> types;
+stack<int> jumps;
 
 void addCuad(cuadruplo *cuad, int operador, int dirOp1, int dirOp2, int temp);
 void getAllCuads(cuadruplo *cuad);
