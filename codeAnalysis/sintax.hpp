@@ -44,49 +44,48 @@
      STRING = 262,
      PROGRAMA = 263,
      FUNC = 264,
-     COND = 265,
-     SI = 266,
-     SINO = 267,
-     VAR = 268,
-     IMPRIMIR = 269,
-     MIENTRAS = 270,
-     DETENER = 271,
-     MOVER_ADELANTE = 272,
-     MOVER_ATRAS = 273,
-     ROTAR = 274,
-     CARGAR_MAPA = 275,
-     LLO = 276,
-     LLC = 277,
-     COO = 278,
-     COC = 279,
-     PAO = 280,
-     PAC = 281,
-     ASIGNACION = 282,
-     IGUAL = 283,
-     MAY = 284,
-     MAYIG = 285,
-     MENIG = 286,
-     MEN = 287,
-     NOT = 288,
-     DIF = 289,
-     MAS = 290,
-     MENOS = 291,
-     POR = 292,
-     ENTRE = 293,
-     C = 294,
-     PC = 295,
-     PUNTO = 296,
-     DP = 297,
-     TRUE = 298,
-     FALSE = 299,
-     AND = 300,
-     OR = 301,
-     CAMINO_DESPEJADO = 302,
-     CAMINO_BLOQUEADO = 303,
-     INTERSECCION_OBJ = 304,
-     TENER_TODOS_OBJS = 305,
-     RECOGER_OBJ = 306,
-     TERMINAR = 307
+     SI = 265,
+     SINO = 266,
+     VAR = 267,
+     IMPRIMIR = 268,
+     MIENTRAS = 269,
+     DETENER = 270,
+     MOVER_ADELANTE = 271,
+     MOVER_ATRAS = 272,
+     ROTAR = 273,
+     CARGAR_MAPA = 274,
+     LLO = 275,
+     LLC = 276,
+     COO = 277,
+     COC = 278,
+     PAO = 279,
+     PAC = 280,
+     ASIGNACION = 281,
+     IGUAL = 282,
+     MAY = 283,
+     MAYIG = 284,
+     MENIG = 285,
+     MEN = 286,
+     NOT = 287,
+     DIF = 288,
+     MAS = 289,
+     MENOS = 290,
+     POR = 291,
+     ENTRE = 292,
+     C = 293,
+     PC = 294,
+     PUNTO = 295,
+     DP = 296,
+     TRUE = 297,
+     FALSE = 298,
+     AND = 299,
+     OR = 300,
+     CAMINO_DESPEJADO = 301,
+     CAMINO_BLOQUEADO = 302,
+     INTERSECCION_OBJ = 303,
+     TENER_TODOS_OBJS = 304,
+     RECOGER_OBJ = 305,
+     TERMINAR = 306
    };
 #endif
 
@@ -97,7 +96,7 @@ typedef union YYSTYPE
 {
 
 /* Line 2068 of yacc.c  */
-#line 22 "sintax.y"
+#line 78 "sintax.y"
 
 	int ival;
 	float fval;
@@ -108,7 +107,7 @@ typedef union YYSTYPE
 
 
 /* Line 2068 of yacc.c  */
-#line 112 "sintax.hpp"
+#line 111 "sintax.hpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

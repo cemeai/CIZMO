@@ -11,9 +11,8 @@ using namespace std;
 %}
 %%
 PROGRAMA 	{return PROGRAMA;}
-COND 		{return COND;}
 FUNC 		{return FUNC;}
-SI			{return SI;}
+SI		{return SI;}
 SINO 		{return SINO;}
 IMPRIMIR 	{return IMPRIMIR;}
 MIENTRAS 	{return MIENTRAS;}
