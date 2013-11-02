@@ -96,7 +96,11 @@ typedef union YYSTYPE
 {
 
 /* Line 2068 of yacc.c  */
+<<<<<<< HEAD
 #line 78 "sintax.y"
+=======
+#line 25 "sintax.y"
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
 
 	int ival;
 	float fval;

@@ -73,7 +73,10 @@
 #include <iostream>
 #include "../semantica/funcdirectory.cpp"
 #include "../semantica/cubo.cpp"
+<<<<<<< HEAD
 //#include "../cuadruplos/cuadruplos.cpp"
+=======
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
 using namespace std;
 
 // stuff from flex that bison needs to know about:
@@ -81,6 +84,7 @@ extern "C" int yylex();
 extern "C" int yyparse();
 extern "C" FILE *yyin;
 
+<<<<<<< HEAD
 //		  1  2  3  4  5  6  7  8  9  10 11 12 13
 //--------+  -  *  /  =  != == <  <= >  >= && ||
 //	1 int
@@ -129,6 +133,10 @@ extern "C" FILE *yyin;
 
 char* e = (char*)"";  //error message
 
+=======
+//numeros de operadores 1  2  3  4  5  6  7  8  9  10 11 12 13
+//--------------------- +  -  *  /  =  != == <  <= >  >= && ||
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
 int contFunc = 0;
 int contParam = 0;
 int contVars = 0;
@@ -146,7 +154,11 @@ void yyerror(const char *s);
 
 
 /* Line 268 of yacc.c  */
+<<<<<<< HEAD
 #line 150 "sintax.cpp"
+=======
+#line 97 "sintax.cpp"
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -232,7 +244,11 @@ typedef union YYSTYPE
 {
 
 /* Line 293 of yacc.c  */
+<<<<<<< HEAD
 #line 78 "sintax.y"
+=======
+#line 25 "sintax.y"
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
 
 	int ival;
 	float fval;
@@ -243,7 +259,11 @@ typedef union YYSTYPE
 
 
 /* Line 293 of yacc.c  */
+<<<<<<< HEAD
 #line 247 "sintax.cpp"
+=======
+#line 195 "sintax.cpp"
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -255,7 +275,11 @@ typedef union YYSTYPE
 
 
 /* Line 343 of yacc.c  */
+<<<<<<< HEAD
 #line 259 "sintax.cpp"
+=======
+#line 207 "sintax.cpp"
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
 
 #ifdef short
 # undef short
@@ -584,6 +608,7 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
+<<<<<<< HEAD
        0,    98,    98,    99,    98,   100,   100,   101,   101,   102,
      103,   103,   105,   105,   105,   106,   106,   107,   108,   108,
      109,   110,   110,   112,   112,   114,   114,   115,   116,   116,
@@ -595,6 +620,19 @@ static const yytype_uint8 yyrline[] =
      153,   155,   156,   157,   157,   158,   158,   160,   161,   162,
      162,   164,   165,   166,   166,   168,   169,   170,   170,   172,
      172,   172,   172,   172,   172,   172,   174,   174,   174,   174
+=======
+       0,    45,    45,    45,    45,    46,    46,    47,    47,    48,
+      49,    49,    51,    51,    52,    52,    53,    54,    54,    55,
+      56,    56,    58,    58,    61,    61,    62,    63,    63,    64,
+      65,    65,    66,    67,    67,    69,    70,    70,    72,    72,
+      72,    72,    72,    73,    75,    76,    76,    79,    80,    80,
+      80,    81,    81,    83,    84,    84,    84,    84,    84,    84,
+      86,    87,    87,    87,    89,    90,    90,    90,    92,    92,
+      92,    94,    95,    96,    97,    98,    99,   100,   100,   102,
+     103,   104,   104,   105,   105,   107,   108,   109,   109,   111,
+     112,   113,   113,   115,   116,   117,   117,   119,   119,   119,
+     119,   119,   119,   119,   121,   121,   121,   121
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
 };
 #endif
 
@@ -1658,62 +1696,103 @@ yyreduce:
         case 2:
 
 /* Line 1806 of yacc.c  */
+<<<<<<< HEAD
 #line 98 "sintax.y"
+=======
+#line 45 "sintax.y"
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
     { addFunc((char*)"global", contFunc); }
     break;
 
   case 3:
 
 /* Line 1806 of yacc.c  */
+<<<<<<< HEAD
 #line 99 "sintax.y"
+=======
+#line 45 "sintax.y"
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
     { addFunc((char*)"main", ++contFunc); }
     break;
 
   case 12:
 
 /* Line 1806 of yacc.c  */
+<<<<<<< HEAD
 #line 105 "sintax.y"
     {cout << "HOL";}
+=======
+#line 51 "sintax.y"
+    { contVars++; nameVar = (yyvsp[(2) - (2)].id); addVar(nameVar); }
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
     break;
 
   case 13:
 
 /* Line 1806 of yacc.c  */
+<<<<<<< HEAD
 #line 105 "sintax.y"
     { contVars++; nameVar = (yyvsp[(2) - (3)].id); addVar(nameVar); }
+=======
+#line 58 "sintax.y"
+    { 
+	if( findFunc((yyvsp[(2) - (2)].id)) ){ cout << "hey"; addFunc((yyvsp[(2) - (2)].id), ++contFunc); }
+}
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
     break;
 
   case 23:
 
 /* Line 1806 of yacc.c  */
+<<<<<<< HEAD
 #line 112 "sintax.y"
     { if( findFunc((yyvsp[(2) - (2)].id)) ) addFunc((yyvsp[(2) - (2)].id), ++contFunc); }
+=======
+#line 95 "sintax.y"
+    { if(nameVar != NULL){ addTypeVar( nameVar, 1); nameVar = NULL;}}
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
     break;
 
   case 54:
 
 /* Line 1806 of yacc.c  */
+<<<<<<< HEAD
 #line 136 "sintax.y"
     {e = (char*)"Non logical expretion";}
+=======
+#line 96 "sintax.y"
+    { if(nameVar != NULL){ addTypeVar( nameVar, 2); nameVar = NULL;}}
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
     break;
 
   case 74:
 
 /* Line 1806 of yacc.c  */
+<<<<<<< HEAD
 #line 148 "sintax.y"
     { if(nameVar != NULL){ addTypeVar( nameVar, 1); nameVar = NULL;}}
+=======
+#line 97 "sintax.y"
+    { if(nameVar != NULL){ addTypeVar( nameVar, 3); nameVar = NULL;}}
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
     break;
 
   case 75:
 
 /* Line 1806 of yacc.c  */
+<<<<<<< HEAD
 #line 149 "sintax.y"
     { if(nameVar != NULL){ addTypeVar( nameVar, 2); nameVar = NULL;}}
+=======
+#line 98 "sintax.y"
+    { if(nameVar != NULL){ addTypeVar( nameVar, 4); nameVar = NULL;}}
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
     break;
 
   case 76:
 
 /* Line 1806 of yacc.c  */
+<<<<<<< HEAD
 #line 150 "sintax.y"
     { if(nameVar != NULL){ addTypeVar( nameVar, 3); nameVar = NULL;}}
     break;
@@ -1729,13 +1808,20 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 152 "sintax.y"
+=======
+#line 99 "sintax.y"
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
     { if(nameVar != NULL){ addTypeVar( nameVar, 4); nameVar = NULL;}}
     break;
 
 
 
 /* Line 1806 of yacc.c  */
+<<<<<<< HEAD
 #line 1739 "sintax.cpp"
+=======
+#line 1676 "sintax.cpp"
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1966,7 +2052,11 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
+<<<<<<< HEAD
 #line 176 "sintax.y"
+=======
+#line 123 "sintax.y"
+>>>>>>> 2ba6f4a1d1bdeac977880976c76ab6a9a2a8c1f1
 
 main() {
 	if (yyparse()==0)

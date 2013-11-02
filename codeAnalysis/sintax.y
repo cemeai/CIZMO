@@ -102,7 +102,8 @@ p2: /* empty */ | modulo;
 p3: cuerpo p4;
 p4: /* empty */ | cuerpo p4;
 
-var: VAR ID {cout << "HOL";}{ contVars++; nameVar = $2; addVar(nameVar); } v1 PC;
+
+var: VAR ID  { contVars++; nameVar = $2; addVar(nameVar); } v1 PC;
 v1: v2 | COO CINT COC;
 v2: ASIGNACION v3;
 v3: exp | LLO v4 LLC;
