@@ -1,16 +1,6 @@
 #include "../headers/funcdirectory.h"
 
-struct functions{
-	int scope;
-	char* name;
-	int parametros;
-	map<char*, int> vars;
-};
-
-list<functions> functionsL;
-functions* funcion;
-
-void agregaFunc( char* nameFunc, int scope ){
+void addFunc( char* nameFunc, int scope ){
 	if( functionsL.empty() && strcmp( nameFunc, "global") != 0 ){
 		funcion = (functions*) malloc( sizeof (functions));
 		funcion->scope = scope++;
@@ -23,7 +13,7 @@ void agregaFunc( char* nameFunc, int scope ){
 	functionsL.push_back(*funcion);
 }
 
-void agregaVar( char* nameVar ){
+void addVar( char* nameVar ){
 	bool exist = 0;
 	map<char*, int> tempVars = functionsL.begin()->vars;
 	for( map<char*, int>::iterator it = tempVars.begin(); it != tempVars.end(); it++)
@@ -37,7 +27,7 @@ void agregaVar( char* nameVar ){
 	else cout << "Ya existe la variable";
 }
 
-void agregaTipoVar(char* nameVar, int type){
+void addTypeVar(char* nameVar, int type){
 	//checar que sea el primero o el ultimo func si type es cero cambiar sino marcar error
 
 	functionsL.rbegin()->vars[nameVar] = type;

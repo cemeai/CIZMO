@@ -72,6 +72,7 @@
 #include <cstdio>
 #include <iostream>
 #include "../semantica/funcdirectory.cpp"
+#include "../semantica/cubo.cpp"
 using namespace std;
 
 // stuff from flex that bison needs to know about:
@@ -79,6 +80,8 @@ extern "C" int yylex();
 extern "C" int yyparse();
 extern "C" FILE *yyin;
 
+//numeros de operadores 1  2  3  4  5  6  7  8  9  10 11 12 13
+//--------------------- +  -  *  /  =  != == <  <= >  >= && ||
 int contFunc = 0;
 int contParam = 0;
 int contVars = 0;
@@ -90,7 +93,7 @@ void yyerror(const char *s);
 
 
 /* Line 268 of yacc.c  */
-#line 94 "sintax.cpp"
+#line 97 "sintax.cpp"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -177,7 +180,7 @@ typedef union YYSTYPE
 {
 
 /* Line 293 of yacc.c  */
-#line 22 "sintax.y"
+#line 25 "sintax.y"
 
 	int ival;
 	float fval;
@@ -188,7 +191,7 @@ typedef union YYSTYPE
 
 
 /* Line 293 of yacc.c  */
-#line 192 "sintax.cpp"
+#line 195 "sintax.cpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -200,7 +203,7 @@ typedef union YYSTYPE
 
 
 /* Line 343 of yacc.c  */
-#line 204 "sintax.cpp"
+#line 207 "sintax.cpp"
 
 #ifdef short
 # undef short
@@ -528,17 +531,17 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    42,    42,    42,    42,    43,    43,    44,    44,    45,
-      46,    46,    48,    48,    49,    49,    50,    51,    51,    52,
-      53,    53,    55,    55,    58,    58,    59,    60,    60,    61,
-      62,    62,    63,    64,    64,    66,    67,    67,    69,    69,
-      69,    69,    69,    70,    72,    73,    73,    76,    77,    77,
-      77,    78,    78,    80,    81,    81,    81,    81,    81,    81,
-      83,    84,    84,    84,    86,    87,    87,    87,    89,    89,
-      89,    91,    92,    93,    94,    95,    96,    97,    97,    99,
-     100,   101,   101,   102,   102,   104,   105,   106,   106,   108,
-     109,   110,   110,   112,   113,   114,   114,   116,   116,   116,
-     116,   116,   116,   116,   118,   118,   118,   118
+       0,    45,    45,    45,    45,    46,    46,    47,    47,    48,
+      49,    49,    51,    51,    52,    52,    53,    54,    54,    55,
+      56,    56,    58,    58,    61,    61,    62,    63,    63,    64,
+      65,    65,    66,    67,    67,    69,    70,    70,    72,    72,
+      72,    72,    72,    73,    75,    76,    76,    79,    80,    80,
+      80,    81,    81,    83,    84,    84,    84,    84,    84,    84,
+      86,    87,    87,    87,    89,    90,    90,    90,    92,    92,
+      92,    94,    95,    96,    97,    98,    99,   100,   100,   102,
+     103,   104,   104,   105,   105,   107,   108,   109,   109,   111,
+     112,   113,   113,   115,   116,   117,   117,   119,   119,   119,
+     119,   119,   119,   119,   121,   121,   121,   121
 };
 #endif
 
@@ -1604,72 +1607,72 @@ yyreduce:
         case 2:
 
 /* Line 1806 of yacc.c  */
-#line 42 "sintax.y"
-    { agregaFunc((char*)"global", contFunc); }
+#line 45 "sintax.y"
+    { addFunc((char*)"global", contFunc); }
     break;
 
   case 3:
 
 /* Line 1806 of yacc.c  */
-#line 42 "sintax.y"
-    { agregaFunc((char*)"main", ++contFunc); }
+#line 45 "sintax.y"
+    { addFunc((char*)"main", ++contFunc); }
     break;
 
   case 12:
 
 /* Line 1806 of yacc.c  */
-#line 48 "sintax.y"
-    { contVars++; nameVar = (yyvsp[(2) - (2)].id); agregaVar(nameVar); }
+#line 51 "sintax.y"
+    { contVars++; nameVar = (yyvsp[(2) - (2)].id); addVar(nameVar); }
     break;
 
   case 22:
 
 /* Line 1806 of yacc.c  */
-#line 55 "sintax.y"
+#line 58 "sintax.y"
     { 
-	if( findFunc((yyvsp[(2) - (2)].id)) ){ cout << "hey"; agregaFunc((yyvsp[(2) - (2)].id), ++contFunc); }
+	if( findFunc((yyvsp[(2) - (2)].id)) ){ cout << "hey"; addFunc((yyvsp[(2) - (2)].id), ++contFunc); }
 }
     break;
 
   case 72:
 
 /* Line 1806 of yacc.c  */
-#line 92 "sintax.y"
-    { if(nameVar != NULL){ agregaTipoVar( nameVar, 1); nameVar = NULL;}}
+#line 95 "sintax.y"
+    { if(nameVar != NULL){ addTypeVar( nameVar, 1); nameVar = NULL;}}
     break;
 
   case 73:
 
 /* Line 1806 of yacc.c  */
-#line 93 "sintax.y"
-    { if(nameVar != NULL){ agregaTipoVar( nameVar, 2); nameVar = NULL;}}
+#line 96 "sintax.y"
+    { if(nameVar != NULL){ addTypeVar( nameVar, 2); nameVar = NULL;}}
     break;
 
   case 74:
 
 /* Line 1806 of yacc.c  */
-#line 94 "sintax.y"
-    { if(nameVar != NULL){ agregaTipoVar( nameVar, 3); nameVar = NULL;}}
+#line 97 "sintax.y"
+    { if(nameVar != NULL){ addTypeVar( nameVar, 3); nameVar = NULL;}}
     break;
 
   case 75:
 
 /* Line 1806 of yacc.c  */
-#line 95 "sintax.y"
-    { if(nameVar != NULL){ agregaTipoVar( nameVar, 4); nameVar = NULL;}}
+#line 98 "sintax.y"
+    { if(nameVar != NULL){ addTypeVar( nameVar, 4); nameVar = NULL;}}
     break;
 
   case 76:
 
 /* Line 1806 of yacc.c  */
-#line 96 "sintax.y"
-    { if(nameVar != NULL){ agregaTipoVar( nameVar, 4); nameVar = NULL;}}
+#line 99 "sintax.y"
+    { if(nameVar != NULL){ addTypeVar( nameVar, 4); nameVar = NULL;}}
     break;
 
 
 
 /* Line 1806 of yacc.c  */
-#line 1673 "sintax.cpp"
+#line 1676 "sintax.cpp"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1900,7 +1903,7 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 120 "sintax.y"
+#line 123 "sintax.y"
 
 main() {
 	if (yyparse()==0)

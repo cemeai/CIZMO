@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <list>
+#include <string.h>
 #include <stdlib.h>
 #include <iostream>
 using namespace std;
@@ -16,7 +17,7 @@ list<functions> functionsL;
 functions* funcion;
 
 struct functions;
-void agregaFunc( char* nameFunc, int id );
-void agregaVar( char* nameVar );
-void agregaTipoVar(char* nameVar, int type);
+void addFunc( char* nameFunc, int id );
+void addVar( char* nameVar );
+void addTypeVar(char* nameVar, int type);
 bool findFunc( char* nameFunc );

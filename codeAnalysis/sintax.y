@@ -42,13 +42,13 @@ void yyerror(const char *s);
 		CAMINO_DESPEJADO CAMINO_BLOQUEADO INTERSECCION_OBJ
 		TENER_TODOS_OBJS RECOGER_OBJ TERMINAR
 %%
-programa: { agregaFunc((char*)"global", contFunc); } p1 p2 PROGRAMA { agregaFunc((char*)"main", ++contFunc); } LLO p1 p3 LLC;
+programa: { addFunc((char*)"global", contFunc); } p1 p2 PROGRAMA { addFunc((char*)"main", ++contFunc); } LLO p1 p3 LLC;
 p1: /* empty */ | var p1;
 p2: /* empty */ | modulo;
 p3: cuerpo p4;
 p4: /* empty */ | cuerpo p4;
 
-var: VAR ID  { contVars++; nameVar = $2; agregaVar(nameVar); } v1 PC;
+var: VAR ID  { contVars++; nameVar = $2; addVar(nameVar); } v1 PC;
 v1: v2 | COO CINT COC;
 v2: ASIGNACION v3;
 v3: exp | LLO v4 LLC;
@@ -56,7 +56,7 @@ v4: CINT v5;
 v5: /* empty */ | C CINT v5;
 
 modulo: FUNC ID { 
-	if( findFunc($2) ){ cout << "hey"; agregaFunc($2, ++contFunc); }
+	if( findFunc($2) ){ cout << "hey"; addFunc($2, ++contFunc); }
 } PAO m1 PAC LLO m2 LLC m6;
 m1: /* empty */ | param;
 m2: m3 m4;
@@ -92,11 +92,11 @@ te: /* empty */ | POR termino | ENTRE termino;
 factor: varcte | predef | PAO exp PAC;
 
 varcte: ID varcte1 | 
-			CINT   { if(nameVar != NULL){ agregaTipoVar( nameVar, 1); nameVar = NULL;}} | // 1 int
-			CFLOAT { if(nameVar != NULL){ agregaTipoVar( nameVar, 2); nameVar = NULL;}} | // 2 float
-			STRING { if(nameVar != NULL){ agregaTipoVar( nameVar, 3); nameVar = NULL;}} | // 3 string
-			TRUE   { if(nameVar != NULL){ agregaTipoVar( nameVar, 4); nameVar = NULL;}} | // 4 bool
-			FALSE  { if(nameVar != NULL){ agregaTipoVar( nameVar, 4); nameVar = NULL;}};  // 0 noType	
+			CINT   { if(nameVar != NULL){ addTypeVar( nameVar, 1); nameVar = NULL;}} | // 1 int
+			CFLOAT { if(nameVar != NULL){ addTypeVar( nameVar, 2); nameVar = NULL;}} | // 2 float
+			STRING { if(nameVar != NULL){ addTypeVar( nameVar, 3); nameVar = NULL;}} | // 3 string
+			TRUE   { if(nameVar != NULL){ addTypeVar( nameVar, 4); nameVar = NULL;}} | // 4 bool
+			FALSE  { if(nameVar != NULL){ addTypeVar( nameVar, 4); nameVar = NULL;}};  // 0 noType	
 varcte1: /* empty */ |  COO exp COC;
 
 condicion: SI PAO logico PAC LLO co1 LLC co3;
