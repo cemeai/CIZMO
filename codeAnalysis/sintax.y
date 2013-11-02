@@ -15,25 +15,25 @@ extern "C" FILE *yyin;
 //		  1  2  3  4  5  6  7  8  9  10 11 12 13
 //--------+  -  *  /  =  != == <  <= >  >= && ||
 //	1 int
-//		  1, 1, 2, 2, 1, 4, 4, 4, 4, 4, 4, 0, 0 	1 int
-//		  2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 0, 0 	2 float
-//		  3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 	3 string
-//		  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 	4 bool
+//		  1, 1, 2, 2, 1, 4, 4, 4, 4, 4, 4, E, E 	1 int
+//		  2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, E, E 	2 float
+//		  3, E, E, E, E, E, E, E, E, E, E, E, E 	3 string
+//		  E, E, E, E, E, E, E, E, E, E, E, E, E 	4 bool
 //	2 float
-//		  2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 0, 0 	1 int
-//		  2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, 0, 0 	2 float
-//		  3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 	3 string
-//		  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 	4 bool
+//		  2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, E, E 	1 int
+//		  2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, E, E 	2 float
+//		  3, E, E, E, E, E, E, E, E, E, E, E, E 	3 string
+//		  E, E, E, E, E, E, E, E, E, E, E, E, E 	4 bool
 //	3 string
-//		  3, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 0, 0 	1 int
-//		  3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 	2 float
-//		  3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 	3 string
-//		  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 	4 bool
+//		  3, E, E, E, E, 4, 4, 4, 4, 4, 4, E, E 	1 int
+//		  3, E, E, E, E, E, E, E, E, E, E, E, E 	2 float
+//		  3, E, E, E, E, E, E, E, E, E, E, E, E 	3 string
+//		  E, E, E, E, E, E, E, E, E, E, E, E, E 	4 bool
 //	4 bool
-//		  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 	1 int
-//		  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 	2 float
-//		  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 	3 string
-//		  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4 	4 bool
+//		  E, E, E, E, E, E, E, E, E, E, E, E, E 	1 int
+//		  E, E, E, E, E, E, E, E, E, E, E, E, E 	2 float
+//		  E, E, E, E, E, E, E, E, E, E, E, E, E 	3 string
+//		  E, E, E, E, E, E, E, E, E, E, E, 4, 4 	4 bool
 
 /*
 ----------VARIABLES GLOBALES--------------
@@ -102,14 +102,14 @@ p2: /* empty */ | modulo;
 p3: cuerpo p4;
 p4: /* empty */ | cuerpo p4;
 
-var: VAR ID { contVars++; nameVar = $2; addVar(nameVar); } v1 PC;
+var: VAR ID {cout << "HOL";}{ contVars++; nameVar = $2; addVar(nameVar); } v1 PC;
 v1: v2 | COO CINT COC;
 v2: ASIGNACION v3;
 v3: exp | LLO v4 LLC;
 v4: CINT v5;
 v5: /* empty */ | C CINT v5;
 
-modulo: FUNC ID { if( findFunc($2) ) addFunc($2, ++contFunc); } {cout << "HOL";} 
+modulo: FUNC ID { if( findFunc($2) ) addFunc($2, ++contFunc); }  
 			PAO m1 PAC LLO m2 LLC m6;
 m1: /* empty */ | param;
 m2: m3 m4;
