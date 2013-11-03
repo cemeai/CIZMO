@@ -15,9 +15,11 @@ struct functions{
 
 list<functions> functionsL;
 functions* funcion;
+map<int, char*> Constantes;
+map<int, char*> Temporales;
 
 void addFunc( char* nameFunc, int id );
 void addVar( char* nameVar );
-bool findVar( char* nameVar);
-void addTypeVar(char* nameVar, int type);
+int findVar( char* nameVar);
+void addTypeVar(char* nameVar, int dir);
 bool findFunc( char* nameFunc );

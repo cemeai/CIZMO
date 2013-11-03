@@ -17,24 +17,24 @@ void addVar( char* nameVar ){
 	functionsL.rbegin()->vars[nameVar] = 0;
 }
 
-bool findVar( char* nameVar){
-	bool exist = false;
+int findVar( char* nameVar){
+	int dir = -1;
 	//checa si la variable existe globalmente
 	map<char*, int> tempVars = functionsL.begin()->vars;
 	for( map<char*, int>::iterator it = tempVars.begin(); it != tempVars.end(); it++)
 		if(strcmp(it->first, nameVar) == 0)
-			exist = true;
+			dir = it->second;
 	//checa si la variable existe en la funcion actual
 	tempVars = functionsL.rbegin()->vars;
 	for( map<char*, int>::iterator it = tempVars.begin(); it != tempVars.end(); it++)
 		if(strcmp(it->first, nameVar) == 0)
-			exist = true;
+			dir = it->second;
 	//regresa  exist true si existe y false si no
-	return exist;
+	return dir;
 }
 
-void addTypeVar(char* nameVar, int type){
-	functionsL.rbegin()->vars[nameVar] = type;
+void addTypeVar(char* nameVar, int dir){
+	functionsL.rbegin()->vars[nameVar] = dir;
 }
 
 bool findFunc( char* nameFunc){

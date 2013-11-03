@@ -2,22 +2,23 @@
 #include <list>
 #include <stdlib.h>
 #include <iostream>
+#include <stack>
 using namespace std;
 
-typedef struct cuadruplo {
-	int numCuad;
+struct cuadruplo {
 	int operador;
 	int dirOperando1;
 	int dirOperando2;
-	int temp;
+	int res;
 };
 
 list<cuadruplo> cuadL;
 cuadruplo* cuad;
-stack<int> operador;
-stack<int> operando;
-stack<int> types;
-stack<int> jumps;
+stack<int> PilaO;
+stack<int> Poper;
+stack<int> PilaT;
+stack<int> PilaS;
 
-void addCuad(cuadruplo *cuad, int operador, int dirOp1, int dirOp2, int temp);
-void getAllCuads(cuadruplo *cuad);
+void addCuad(int operador, int dirOp1, int dirOp2, int res);
+void printAllCuads();
+int getActualCuad();

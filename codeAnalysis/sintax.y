@@ -4,6 +4,8 @@
 #include <iostream>
 #include "../semantica/funcdirectory.cpp"
 #include "../semantica/cubo.cpp"
+#include "../cuadruplos/cuadruplos.cpp"
+
 using namespace std;
 
 // stuff from flex that bison needs to know about:
@@ -11,13 +13,64 @@ extern "C" int yylex();
 extern "C" int yyparse();
 extern "C" FILE *yyin;
 
-//numeros de operadores 1  2  3  4  5  6  7  8  9  10 11 12 13
-//--------------------- +  -  *  /  =  != == <  <= >  >= && ||
+//		  1  2  3  4  5  6  7  8  9  10 11 12 13
+//        --------+  -  *  /  =  != == <  <= >  >= && ||
+//	1 int
+//		  1, 1, 2, 2, 1, 4, 4, 4, 4, 4, 4, E, E 	1 int
+//		  2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, E, E 	2 float
+//		  3, E, E, E, E, E, E, E, E, E, E, E, E 	3 string
+//		  E, E, E, E, E, E, E, E, E, E, E, E, E 	4 bool
+//	2 float
+//		  2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, E, E 	1 int
+//		  2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, E, E 	2 float
+//		  3, E, E, E, E, E, E, E, E, E, E, E, E 	3 string
+//		  E, E, E, E, E, E, E, E, E, E, E, E, E 	4 bool
+//	3 string
+//		  3, E, E, E, E, 4, 4, 4, 4, 4, 4, E, E 	1 int
+//		  3, E, E, E, E, E, E, E, E, E, E, E, E 	2 float
+//		  3, E, E, E, E, E, E, E, E, E, E, E, E 	3 string
+//		  E, E, E, E, E, E, E, E, E, E, E, E, E 	4 bool
+//	4 bool
+//		  E, E, E, E, E, E, E, E, E, E, E, E, E 	1 int
+//		  E, E, E, E, E, E, E, E, E, E, E, E, E 	2 float
+//		  E, E, E, E, E, E, E, E, E, E, E, E, E 	3 string
+//		  E, E, E, E, E, E, E, E, E, E, E, 4, 4 	4 bool
+
+/*
+----------VARIABLES GLOBALES--------------
+ 0000 -  1999			ENTEROS
+ 2000 -  3999			FLOTANTES
+ 4000 -  5999			STRINGS
+ 6000 -  7999			BOOLS
+-----------VARIABLES LOCALES--------------
+ 8000 -  9999			ENTEROS
+10000 - 11999			FLOTANTES
+12000 - 13999			STRINGS
+14000 - 15999			BOOLS
+-------- VARIABLES TEMPORALES-------------
+16000 - 17999			ENTEROS
+18000 - 19999			FLOTANTES
+20000 - 21999			STRINGS
+22000 - 23999			BOOLS
+--------------CONSTANTES------------------
+24000 - 25999			ENTEROS
+26000 - 27999			FLOTANTES
+28000 - 29999			STRINGS
+30000 - 31999			BOOLS
+*/
+
+int iG =     0, fG =  2000, sG =  4000, bG =  6000;
+int iL =  8000, fL = 10000, sL = 12000, bL = 14000;
+int iT = 16000, fT = 18000, sT = 20000, bT = 22000;
+int iC = 24000, fC = 26000, sC = 28000, bC = 30000;
+
 int contFunc = 0;
 int contParam = 0;
 int contVars = 0;
 int scope = 0;
 char* nameVar = NULL;
+
+#include "../cuadruplos/GCI/GC_Expresiones.cpp"
  
 void yyerror(const char *s);
 
@@ -49,10 +102,32 @@ p2: /* empty */ | modulo;
 p3: cuerpo p4;
 p4: /* empty */ | cuerpo p4;
 
-var: VAR ID  { contVars++; nameVar = $2; addVar(nameVar); } v1 PC;
+var: VAR ID {PilaO.push(-1); PilaT.push(-1);}
+	    {nameVar = $2; if(findVar(nameVar) == -1) addVar(nameVar); } v1 PC;
 v1: v2 | COO CINT COC;
-v2: ASIGNACION v3;
-v3: exp | LLO v4 LLC;
+v2: ASIGNACION {Poper.push(5);} v3;
+v3: exp {int dir; if(scope==0)
+	switch (PilaT.top()){
+		case 1: if(iG<2000) dir= iG++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
+		case 2: if(fG<4000) dir= fG++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
+		case 3: if(sG<6000) dir= sG++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
+		case 4: if(bG<8000) dir= bG++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
+	}else
+	switch (PilaT.top()){
+		case 1: if(iL<10000) dir= iL++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
+		case 2: if(fL<12000) dir= fL++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
+		case 3: if(sL<14000) dir= sL++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
+		case 4: if(bL<16000) dir= bL++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
+		}
+	addTypeVar( nameVar, dir);
+	PilaT.pop();
+	PilaT.pop();
+	addCuad(Poper.top(),PilaO.top(),-1,dir);
+	Poper.pop();
+	PilaO.pop();
+	PilaO.pop();
+	printAllCuads(); /***** TESTING *****/
+	} | LLO v4 LLC;
 v4: CINT v5;
 v5: /* empty */ | C CINT v5;
 
@@ -80,23 +155,23 @@ logico: expresion l1;
 l1: /* empty */ | AND l2 | OR l2;
 l2: expresion | pruebas;
 
-expresion: exp expr exp;
+expresion: exp expr {/*Meter operador a Poper*/} exp;
 expr: MAY | MEN | MAYIG | MENIG | IGUAL | DIF;
 
-exp: termino exp1;
-exp1: /* empty */ | MAS exp | MENOS exp;
+exp: termino {/*Generar cuadruplo*/} exp1;
+exp1: /* empty */ | MAS {/*Meter operador a Poper*/} exp | MENOS {/*Meter operador a Poper*/} exp;
 
-termino: factor te;
-te: /* empty */ | POR termino | ENTRE termino;
+termino: factor {/*Generar cuadruplo*/} te;
+te: /* empty */ | POR {/*Meter operador a Poper*/} termino | ENTRE {/*Meter operador a Poper*/} termino;
 
-factor: varcte | predef | PAO exp PAC;
+factor: varcte {/*Asignar Direccion de memoria a ID*/ /*Meter ID(Direccion) a PilaO*/} | predef | PAO {/*Meter fondo falso*/} expresion PAC {/*Sacar fondo falso*/};
 
-varcte: ID varcte1 | 
-			CINT   { if(nameVar != NULL){ addTypeVar( nameVar, 1); nameVar = NULL;}} | // 1 int
-			CFLOAT { if(nameVar != NULL){ addTypeVar( nameVar, 2); nameVar = NULL;}} | // 2 float
-			STRING { if(nameVar != NULL){ addTypeVar( nameVar, 3); nameVar = NULL;}} | // 3 string
-			TRUE   { if(nameVar != NULL){ addTypeVar( nameVar, 4); nameVar = NULL;}} | // 4 bool
-			FALSE  { if(nameVar != NULL){ addTypeVar( nameVar, 4); nameVar = NULL;}};  // 0 noType	
+varcte: ID  varcte1 |
+			CINT   {char* buf = (char*)malloc( sizeof (int)); sprintf(buf,"%d", $1); Constantes[iC] = buf; PilaT.push(1); PilaO.push(iC++);}| // 1 int
+			CFLOAT {char* buf = (char*)malloc( sizeof (float)); sprintf(buf,"%f", $1); Constantes[fC] = buf; PilaT.push(2); PilaO.push(fC++);}| // 2 float
+			STRING {Constantes[sC] = (char *)$1; PilaT.push(3); PilaO.push(sC++);}| // 3 string
+			TRUE   {Constantes[bC] = (char *)"TRUE"; PilaT.push(4); PilaO.push(bC++);}| // 4 bool
+			FALSE  {Constantes[bC] = (char *)"FALSE"; PilaT.push(5); PilaO.push(bC++);}  // 0 noType
 varcte1: /* empty */ |  COO exp COC;
 
 condicion: SI PAO logico PAC LLO co1 LLC co3;
