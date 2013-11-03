@@ -1,16 +1,15 @@
 //#include "../headers/funcdirectory.h"
 /***** ( 1 ) *****/
 void GC_Expresiones_1(){
-int dir;
+nameVar = $1;
 int dirV = findVar(nameVar);
 if(dirV != -1){
-PilaO.push(dirV);
-switch (dirV){
-	case 1: if(dirV<2000 || (dirV>=8000 && dirV<10000)) dir= iG++; else printf("ERROR\n");break;
-	case 2: if((dirV>=2000 && dirV<4000) || (dirV>=8000 && dirV<10000)) dir= fG++; else printf("ERROR\n"); break;
-	case 3: if((dirV>=4000 && dirV<6000) || (dirV>=10000 && dirV<12000)) dir= sG++; else printf("ERROR\n"); break;
-	case 4: if((dirV>=6000 && dirV<8000) || (dirV>=12000 && dirV<14000)) dir= bG++; else printf("ERROR\n"); break;
-}
+	PilaO.push(dirV);
+	if(dirV<2000 || (dirV>=8000 && dirV<10000)) PilaT.push(1); else
+	if((dirV>=2000 && dirV<4000) || (dirV>=8000 && dirV<10000)) PilaT.push(2); else
+	if((dirV>=4000 && dirV<6000) || (dirV>=10000 && dirV<12000)) PilaT.push(3); else
+	if((dirV>=6000 && dirV<8000) || (dirV>=12000 && dirV<14000)) PilaT.push(4); else printf("Direccion no valida\n");
+
 }else
 printf("Error\n");
 }

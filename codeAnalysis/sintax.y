@@ -71,6 +71,7 @@ int scope = 0;
 char* nameVar = NULL;
 
 #include "../cuadruplos/GCI/GC_Expresiones.cpp"
+#include "../cuadruplos/GCI/GC_Asignaciones.cpp"
  
 void yyerror(const char *s);
 
@@ -102,34 +103,14 @@ p2: /* empty */ | modulo;
 p3: cuerpo p4;
 p4: /* empty */ | cuerpo p4;
 
-var: VAR ID {PilaO.push(-1); PilaT.push(-1);}
-	    {nameVar = $2; if(findVar(nameVar) == -1) addVar(nameVar); } v1 PC;
+
+var: VAR ID {GC_Asignaciones_1();} v1 PC;
 v1: v2 | COO CINT COC;
-v2: ASIGNACION {Poper.push(5);} v3;
-v3: exp {int dir; if(scope==0)
-	switch (PilaT.top()){
-		case 1: if(iG<2000) dir= iG++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
-		case 2: if(fG<4000) dir= fG++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
-		case 3: if(sG<6000) dir= sG++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
-		case 4: if(bG<8000) dir= bG++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
-	}else
-	switch (PilaT.top()){
-		case 1: if(iL<10000) dir= iL++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
-		case 2: if(fL<12000) dir= fL++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
-		case 3: if(sL<14000) dir= sL++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
-		case 4: if(bL<16000) dir= bL++; else printf("ERROR\n"); addTypeVar( nameVar, dir); break;
-		}
-	addTypeVar( nameVar, dir);
-	PilaT.pop();
-	PilaT.pop();
-	addCuad(Poper.top(),PilaO.top(),-1,dir);
-	Poper.pop();
-	PilaO.pop();
-	PilaO.pop();
-	printAllCuads(); /***** TESTING *****/
-	} | LLO v4 LLC;
+v2: ASIGNACION {GC_Asignaciones_2();} v3;
+v3: exp {GC_Asignaciones_3();} | LLO v4 LLC;
 v4: CINT v5;
 v5: /* empty */ | C CINT v5;
+
 
 modulo: FUNC ID { if( findFunc($2) ){ addFunc($2, ++contFunc); } } 
 			PAO m1 PAC LLO m2 LLC m6;
@@ -141,32 +122,40 @@ m5: /* empty */ | cuerpo m5;
 m6: m7;
 m7: /* empty */ | modulo;
 
+
 param: VAR ID pa;
 pa: /* empty */|C param;
+
 
 cuerpo: asignacion C1 | condicion | ciclo | predef C1 | imprimir C1;
 C1: PC;
 
-asignacion: ID as ASIGNACION exp;
+
+asignacion: ID {GC_Expresiones_4();} as ASIGNACION {GC_Expresiones_5();} exp {GC_Expresiones_6();};
 as: /* empty */ | COO exp COC;
 
 
-logico: expresion l1;
-l1: /* empty */ | AND l2 | OR l2;
+logico: expresion {GC_Expresiones_11();} l1;
+l1: /* empty */ | AND {GC_Expresiones_10(12);} l2 | OR {GC_Expresiones_10(13);} l2;
 l2: expresion | pruebas;
 
-expresion: exp expr {/*Meter operador a Poper*/} exp;
-expr: MAY | MEN | MAYIG | MENIG | IGUAL | DIF;
 
-exp: termino {/*Generar cuadruplo*/} exp1;
-exp1: /* empty */ | MAS {/*Meter operador a Poper*/} exp | MENOS {/*Meter operador a Poper*/} exp;
+expresion: exp expr {GC_Expresiones_9();} exp;
+expr: MAY {GC_Expresiones_8(10);} | MEN {GC_Expresiones_8(8);} | MAYIG {GC_Expresiones_8(11);} | MENIG {GC_Expresiones_8(9);} | IGUAL {GC_Expresiones_8(7);} | DIF {GC_Expresiones_8(6);};
 
-termino: factor {/*Generar cuadruplo*/} te;
-te: /* empty */ | POR {/*Meter operador a Poper*/} termino | ENTRE {/*Meter operador a Poper*/} termino;
 
-factor: varcte {/*Asignar Direccion de memoria a ID*/ /*Meter ID(Direccion) a PilaO*/} | predef | PAO {/*Meter fondo falso*/} expresion PAC {/*Sacar fondo falso*/};
+exp: termino {GC_Expresiones_4();} exp1;
+exp1: /* empty */ | MAS {GC_Expresiones_2(1);} exp | MENOS {GC_Expresiones_2(2);} exp;
 
-varcte: ID  varcte1 |
+
+termino: factor {GC_Expresiones_5();} te;
+te: /* empty */ | POR {GC_Expresiones_3(3);} termino | ENTRE {GC_Expresiones_3(4);} termino;
+
+
+factor: varcte | predef | PAO {GC_Expresiones_6();} expresion PAC {GC_Expresiones_7();};
+
+
+varcte: ID {GC_Expresiones_1();} varcte1 |
 			CINT   {char* buf = (char*)malloc( sizeof (int)); sprintf(buf,"%d", $1); Constantes[iC] = buf; PilaT.push(1); PilaO.push(iC++);}| // 1 int
 			CFLOAT {char* buf = (char*)malloc( sizeof (float)); sprintf(buf,"%f", $1); Constantes[fC] = buf; PilaT.push(2); PilaO.push(fC++);}| // 2 float
 			STRING {Constantes[sC] = (char *)$1; PilaT.push(3); PilaO.push(sC++);}| // 3 string
@@ -174,24 +163,30 @@ varcte: ID  varcte1 |
 			FALSE  {Constantes[bC] = (char *)"FALSE"; PilaT.push(5); PilaO.push(bC++);}  // 0 noType
 varcte1: /* empty */ |  COO exp COC;
 
+
 condicion: SI PAO logico PAC LLO co1 LLC co3;
 co1: cuerpo co2;
 co2: /* empty */ | cuerpo co2;
 co3: /* empty */ | SINO LLO co1 LLC;
 
+
 ciclo: MIENTRAS PAO logico PAC LLO ci1 LLC;
 ci1: cuerpo ci2;
 ci2: /* empty */ | cuerpo ci2;
+
 
 predef: pdfunc PAO pred1 PAC;
 pred1: exp pred2;
 pred2: /* empty */ | C exp pred2;
 
+
 imprimir: IMPRIMIR PAO imp1 PAC;
 imp1: varcte imp2;
 imp2: /* empty */ | MAS varcte imp2;
 
+
 pdfunc:DETENER | MOVER_ADELANTE | ROTAR | RECOGER_OBJ | CARGAR_MAPA | TERMINAR | ID;
+
 
 pruebas: CAMINO_DESPEJADO | CAMINO_BLOQUEADO | INTERSECCION_OBJ | TENER_TODOS_OBJS;
 
