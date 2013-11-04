@@ -42,14 +42,16 @@ void GC_Asignaciones_3(){
 
 /***** ( 5 ) *****/
 void GC_Asignaciones_5(){
-	int tipo1= PilaT.top(); PilaT.pop();
-	int tipo2= PilaT.top(); PilaT.pop();
-	int tipoR= askTheCubo(tipo1,tipo2,Poper.top());
-	if(tipoR!=0){
-		int operador = Poper.top(); Poper.pop();
-		int dir1 = PilaO.top(); PilaO.pop();
-		int dir2 = PilaO.top(); PilaO.pop();
-		addCuad(operador,dir1,-1,dir2);
+	if(PilaO.size() > 1){
+		int tipo1= PilaT.top(); PilaT.pop();
+		int tipo2= PilaT.top(); PilaT.pop();
+		int tipoR= askTheCubo(tipo1,tipo2,Poper.top());
+		if(tipoR!=0){
+			int operador = Poper.top(); Poper.pop();
+			int dir1 = PilaO.top(); PilaO.pop();
+			int dir2 = PilaO.top(); PilaO.pop();
+			addCuad(operador,dir1,-1,dir2);
+		}
+		printAllCuads(); /***** TESTING *****/
 	}
-	printAllCuads(); /***** TESTING *****/
 }
