@@ -72,6 +72,7 @@ char* nameVar = NULL;
 
 #include "../cuadruplos/GCI/GC_Expresiones.cpp"
 #include "../cuadruplos/GCI/GC_Asignaciones.cpp"
+#include "../cuadruplos/GCI/GC_Estatutos.cpp"
  
 void yyerror(const char *s);
 
@@ -104,7 +105,7 @@ p3: cuerpo p4;
 p4: /* empty */ | cuerpo p4;
 
 
-var: VAR ID {GC_Asignaciones_1();} v1 PC;
+var: VAR ID { nameVar = $2; GC_Asignaciones_1();} v1 PC;
 v1: v2 | COO CINT COC;
 v2: ASIGNACION {GC_Asignaciones_2();} v3;
 v3: exp {GC_Asignaciones_3();} | LLO v4 LLC;
@@ -131,12 +132,12 @@ cuerpo: asignacion C1 | condicion | ciclo | predef C1 | imprimir C1;
 C1: PC;
 
 
-asignacion: ID {GC_Expresiones_4();} as ASIGNACION {GC_Expresiones_5();} exp {GC_Expresiones_6();};
+asignacion: ID {nameVar = $1; GC_getDirAndType();} as ASIGNACION {GC_Asignaciones_2();} exp {GC_Asignaciones_5();};
 as: /* empty */ | COO exp COC;
 
 
 logico: expresion {GC_Expresiones_11();} l1;
-l1: /* empty */ | AND {GC_Expresiones_10(12);} l2 | OR {GC_Expresiones_10(13);} l2;
+l1: /* empty */ | AND {GC_Expresiones_8(12);} l2 | OR {GC_Expresiones_8(13);} l2;
 l2: expresion | pruebas;
 
 
@@ -155,22 +156,26 @@ te: /* empty */ | POR {GC_Expresiones_3(3);} termino | ENTRE {GC_Expresiones_3(4
 factor: varcte | predef | PAO {GC_Expresiones_6();} expresion PAC {GC_Expresiones_7();};
 
 
-varcte: ID {GC_Expresiones_1();} varcte1 |
-			CINT   {char* buf = (char*)malloc( sizeof (int)); sprintf(buf,"%d", $1); Constantes[iC] = buf; PilaT.push(1); PilaO.push(iC++);}| // 1 int
-			CFLOAT {char* buf = (char*)malloc( sizeof (float)); sprintf(buf,"%f", $1); Constantes[fC] = buf; PilaT.push(2); PilaO.push(fC++);}| // 2 float
+varcte: ID {nameVar = $1; GC_getDirAndType();} varcte1 |
+			CINT   {char* buf = (char*)malloc( sizeof (int)); sprintf(buf,"%d", $1); 
+					Constantes[iC] = buf; PilaT.push(1); PilaO.push(iC++);}| // 1 int
+			CFLOAT {char* buf = (char*)malloc( sizeof (float)); sprintf(buf,"%f", $1); 
+					Constantes[fC] = buf; PilaT.push(2); PilaO.push(fC++);}| // 2 float
 			STRING {Constantes[sC] = (char *)$1; PilaT.push(3); PilaO.push(sC++);}| // 3 string
 			TRUE   {Constantes[bC] = (char *)"TRUE"; PilaT.push(4); PilaO.push(bC++);}| // 4 bool
 			FALSE  {Constantes[bC] = (char *)"FALSE"; PilaT.push(5); PilaO.push(bC++);}  // 0 noType
 varcte1: /* empty */ |  COO exp COC;
 
 
-condicion: SI PAO logico PAC LLO co1 LLC co3;
+condicion: SI PAO logico PAC {cout<<"hola"; GC_Estatutos_gotoF(); } LLO co1 LLC co3 { GC_Estatutos_IF_3(); };
 co1: cuerpo co2;
 co2: /* empty */ | cuerpo co2;
-co3: /* empty */ | SINO LLO co1 LLC;
+co3: /* empty */ | SINO { GC_Estatutos_IF_2(); } LLO co1 LLC;
 
 
-ciclo: MIENTRAS PAO logico PAC LLO ci1 LLC;
+ciclo: MIENTRAS { GC_Estatutos_WHILE_1(); } PAO logico PAC 
+				{ GC_Estatutos_gotoF(); } LLO ci1 LLC
+				{ GC_Estatutos_WHILE_2(); };
 ci1: cuerpo ci2;
 ci2: /* empty */ | cuerpo ci2;
 
