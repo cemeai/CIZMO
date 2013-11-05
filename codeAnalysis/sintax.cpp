@@ -240,12 +240,11 @@ typedef union YYSTYPE
 	float fval;
 	char *id;
 	char *ide;
-	char *sval;
 
 
 
 /* Line 293 of yacc.c  */
-#line 249 "sintax.cpp"
+#line 248 "sintax.cpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -257,7 +256,7 @@ typedef union YYSTYPE
 
 
 /* Line 343 of yacc.c  */
-#line 261 "sintax.cpp"
+#line 260 "sintax.cpp"
 
 #ifdef short
 # undef short
@@ -591,19 +590,19 @@ static const yytype_int16 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    99,    99,   100,    99,   101,   101,   102,   102,   103,
-     104,   104,   107,   107,   108,   108,   109,   109,   110,   110,
-     111,   112,   112,   115,   116,   115,   117,   117,   118,   119,
-     119,   120,   121,   121,   122,   123,   123,   126,   127,   127,
-     130,   130,   130,   130,   130,   131,   134,   134,   134,   135,
-     135,   138,   138,   139,   139,   139,   139,   139,   140,   140,
-     143,   144,   144,   144,   144,   144,   144,   147,   147,   148,
-     148,   148,   148,   148,   151,   151,   152,   152,   152,   152,
-     152,   155,   155,   155,   155,   158,   158,   159,   161,   163,
-     164,   165,   166,   166,   169,   169,   170,   171,   171,   172,
-     172,   172,   175,   176,   175,   178,   179,   179,   182,   183,
-     184,   184,   187,   188,   189,   189,   192,   192,   192,   192,
-     192,   192,   192,   195,   195,   195,   195
+       0,    98,    98,    99,    98,   100,   100,   101,   101,   102,
+     103,   103,   106,   106,   107,   107,   108,   108,   109,   109,
+     110,   111,   111,   114,   115,   114,   116,   116,   117,   118,
+     118,   119,   120,   120,   121,   122,   122,   125,   126,   126,
+     129,   129,   129,   129,   129,   130,   133,   133,   133,   134,
+     134,   137,   137,   138,   138,   138,   138,   138,   139,   139,
+     142,   143,   143,   143,   143,   143,   143,   146,   146,   147,
+     147,   147,   147,   147,   150,   150,   151,   151,   151,   151,
+     151,   154,   154,   154,   154,   157,   157,   158,   160,   162,
+     163,   164,   165,   165,   168,   168,   169,   170,   170,   171,
+     171,   171,   174,   175,   174,   177,   178,   178,   181,   182,
+     183,   183,   186,   187,   188,   188,   191,   191,   191,   191,
+     191,   191,   191,   194,   194,   194,   194
 };
 #endif
 
@@ -1686,217 +1685,217 @@ yyreduce:
         case 2:
 
 /* Line 1806 of yacc.c  */
-#line 99 "sintax.y"
+#line 98 "sintax.y"
     { addFunc((char*)"global", contFunc); }
     break;
 
   case 3:
 
 /* Line 1806 of yacc.c  */
-#line 100 "sintax.y"
+#line 99 "sintax.y"
     { addFunc((char*)"main", ++contFunc); }
     break;
 
   case 4:
 
 /* Line 1806 of yacc.c  */
-#line 100 "sintax.y"
+#line 99 "sintax.y"
     {YYACCEPT;}
     break;
 
   case 12:
 
 /* Line 1806 of yacc.c  */
-#line 107 "sintax.y"
+#line 106 "sintax.y"
     { nameVar = (yyvsp[(2) - (2)].id); GC_Asignaciones_1();}
     break;
 
   case 16:
 
 /* Line 1806 of yacc.c  */
-#line 109 "sintax.y"
+#line 108 "sintax.y"
     {GC_Asignaciones_2();}
     break;
 
   case 18:
 
 /* Line 1806 of yacc.c  */
-#line 110 "sintax.y"
+#line 109 "sintax.y"
     {GC_Asignaciones_3();}
     break;
 
   case 23:
 
 /* Line 1806 of yacc.c  */
-#line 115 "sintax.y"
+#line 114 "sintax.y"
     { if( findFunc((yyvsp[(2) - (2)].id)) ){ addFunc((yyvsp[(2) - (2)].id), ++contFunc); } }
     break;
 
   case 24:
 
 /* Line 1806 of yacc.c  */
-#line 116 "sintax.y"
+#line 115 "sintax.y"
     {printAllCuads();}
     break;
 
   case 46:
 
 /* Line 1806 of yacc.c  */
-#line 134 "sintax.y"
+#line 133 "sintax.y"
     {nameVar = (yyvsp[(1) - (1)].id); GC_getDirAndType();}
     break;
 
   case 47:
 
 /* Line 1806 of yacc.c  */
-#line 134 "sintax.y"
+#line 133 "sintax.y"
     {GC_Asignaciones_2();}
     break;
 
   case 48:
 
 /* Line 1806 of yacc.c  */
-#line 134 "sintax.y"
+#line 133 "sintax.y"
     {GC_Asignaciones_5();}
     break;
 
   case 51:
 
 /* Line 1806 of yacc.c  */
-#line 138 "sintax.y"
+#line 137 "sintax.y"
     {GC_Expresiones_11();}
     break;
 
   case 54:
 
 /* Line 1806 of yacc.c  */
-#line 139 "sintax.y"
+#line 138 "sintax.y"
     {GC_Expresiones_8(12);}
     break;
 
   case 56:
 
 /* Line 1806 of yacc.c  */
-#line 139 "sintax.y"
+#line 138 "sintax.y"
     {GC_Expresiones_8(13);}
     break;
 
   case 60:
 
 /* Line 1806 of yacc.c  */
-#line 143 "sintax.y"
+#line 142 "sintax.y"
     { GC_Expresiones_9();}
     break;
 
   case 61:
 
 /* Line 1806 of yacc.c  */
-#line 144 "sintax.y"
+#line 143 "sintax.y"
     {GC_Expresiones_8(10);}
     break;
 
   case 62:
 
 /* Line 1806 of yacc.c  */
-#line 144 "sintax.y"
+#line 143 "sintax.y"
     { GC_Expresiones_8(8);}
     break;
 
   case 63:
 
 /* Line 1806 of yacc.c  */
-#line 144 "sintax.y"
+#line 143 "sintax.y"
     {GC_Expresiones_8(11);}
     break;
 
   case 64:
 
 /* Line 1806 of yacc.c  */
-#line 144 "sintax.y"
+#line 143 "sintax.y"
     {GC_Expresiones_8(9);}
     break;
 
   case 65:
 
 /* Line 1806 of yacc.c  */
-#line 144 "sintax.y"
+#line 143 "sintax.y"
     {GC_Expresiones_8(7);}
     break;
 
   case 66:
 
 /* Line 1806 of yacc.c  */
-#line 144 "sintax.y"
+#line 143 "sintax.y"
     {GC_Expresiones_8(6);}
     break;
 
   case 67:
 
 /* Line 1806 of yacc.c  */
-#line 147 "sintax.y"
+#line 146 "sintax.y"
     { GC_Expresiones_4(); }
     break;
 
   case 70:
 
 /* Line 1806 of yacc.c  */
-#line 148 "sintax.y"
+#line 147 "sintax.y"
     {GC_Expresiones_2(1);}
     break;
 
   case 72:
 
 /* Line 1806 of yacc.c  */
-#line 148 "sintax.y"
+#line 147 "sintax.y"
     {GC_Expresiones_2(2);}
     break;
 
   case 74:
 
 /* Line 1806 of yacc.c  */
-#line 151 "sintax.y"
+#line 150 "sintax.y"
     { GC_Expresiones_5(); }
     break;
 
   case 77:
 
 /* Line 1806 of yacc.c  */
-#line 152 "sintax.y"
+#line 151 "sintax.y"
     { GC_Expresiones_3(3); }
     break;
 
   case 79:
 
 /* Line 1806 of yacc.c  */
-#line 152 "sintax.y"
+#line 151 "sintax.y"
     { GC_Expresiones_3(4); }
     break;
 
   case 83:
 
 /* Line 1806 of yacc.c  */
-#line 155 "sintax.y"
+#line 154 "sintax.y"
     {GC_Expresiones_6();}
     break;
 
   case 84:
 
 /* Line 1806 of yacc.c  */
-#line 155 "sintax.y"
+#line 154 "sintax.y"
     {GC_Expresiones_7();}
     break;
 
   case 85:
 
 /* Line 1806 of yacc.c  */
-#line 158 "sintax.y"
+#line 157 "sintax.y"
     {nameVar = (yyvsp[(1) - (1)].id); GC_getDirAndType(); }
     break;
 
   case 87:
 
 /* Line 1806 of yacc.c  */
-#line 159 "sintax.y"
+#line 158 "sintax.y"
     {char* buf = (char*)malloc( sizeof (int)); sprintf(buf,"%d", (yyvsp[(1) - (1)].ival)); 
 					Constantes[iC] = buf; PilaT.push(1); PilaO.push(iC++);}
     break;
@@ -1904,7 +1903,7 @@ yyreduce:
   case 88:
 
 /* Line 1806 of yacc.c  */
-#line 161 "sintax.y"
+#line 160 "sintax.y"
     {char* buf = (char*)malloc( sizeof (float)); sprintf(buf,"%f", (yyvsp[(1) - (1)].fval)); 
 					Constantes[fC] = buf; PilaT.push(2); PilaO.push(fC++);}
     break;
@@ -1912,70 +1911,70 @@ yyreduce:
   case 89:
 
 /* Line 1806 of yacc.c  */
-#line 163 "sintax.y"
-    {Constantes[sC] = (char *)(yyvsp[(1) - (1)].sval); PilaT.push(3); PilaO.push(sC++);}
+#line 162 "sintax.y"
+    {PilaT.push(3); PilaO.push(sC++);}
     break;
 
   case 90:
 
 /* Line 1806 of yacc.c  */
-#line 164 "sintax.y"
+#line 163 "sintax.y"
     {Constantes[bC] = (char *)"TRUE"; PilaT.push(4); PilaO.push(bC++);}
     break;
 
   case 91:
 
 /* Line 1806 of yacc.c  */
-#line 165 "sintax.y"
+#line 164 "sintax.y"
     {Constantes[bC] = (char *)"FALSE"; PilaT.push(5); PilaO.push(bC++);}
     break;
 
   case 94:
 
 /* Line 1806 of yacc.c  */
-#line 169 "sintax.y"
+#line 168 "sintax.y"
     { GC_Estatutos_gotoF(); }
     break;
 
   case 95:
 
 /* Line 1806 of yacc.c  */
-#line 169 "sintax.y"
+#line 168 "sintax.y"
     { GC_Estatutos_IF_3();}
     break;
 
   case 100:
 
 /* Line 1806 of yacc.c  */
-#line 172 "sintax.y"
+#line 171 "sintax.y"
     { GC_Estatutos_IF_2(); }
     break;
 
   case 102:
 
 /* Line 1806 of yacc.c  */
-#line 175 "sintax.y"
+#line 174 "sintax.y"
     { GC_Estatutos_WHILE_1();}
     break;
 
   case 103:
 
 /* Line 1806 of yacc.c  */
-#line 176 "sintax.y"
+#line 175 "sintax.y"
     { GC_Estatutos_gotoF();}
     break;
 
   case 104:
 
 /* Line 1806 of yacc.c  */
-#line 177 "sintax.y"
+#line 176 "sintax.y"
     { GC_Estatutos_WHILE_2(); }
     break;
 
 
 
 /* Line 1806 of yacc.c  */
-#line 1979 "sintax.cpp"
+#line 1978 "sintax.cpp"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2206,7 +2205,7 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 197 "sintax.y"
+#line 196 "sintax.y"
 
 main() {
 	if (yyparse()==0)

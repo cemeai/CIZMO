@@ -81,13 +81,12 @@ void yyerror(const char *s);
 	float fval;
 	char *id;
 	char *ide;
-	char *sval;
 }
 %token <ival> CINT
 %token <fval> CFLOAT
 %token <ide> IDE
-%token <id> ID
-%token <sval> STRING
+%token <id> ID 
+%token STRING
 %token PROGRAMA FUNC COND SI SINO VAR IMPRIMIR MIENTRAS 
 		DETENER MOVER_ADELANTE MOVER_ATRAS ROTAR 
 		CARGAR_MAPA LLO LLC COO COC PAO PAC  ASIGNACION 
@@ -160,7 +159,7 @@ varcte: ID {nameVar = $1; GC_getDirAndType(); } varcte1 |
 					Constantes[iC] = buf; PilaT.push(1); PilaO.push(iC++);}| // 1 int
 			CFLOAT {char* buf = (char*)malloc( sizeof (float)); sprintf(buf,"%f", $1); 
 					Constantes[fC] = buf; PilaT.push(2); PilaO.push(fC++);}| // 2 float
-			STRING {Constantes[sC] = (char *)$1; PilaT.push(3); PilaO.push(sC++);}| // 3 string
+			STRING {PilaT.push(3); PilaO.push(sC++);}| // 3 string
 			TRUE   {Constantes[bC] = (char *)"TRUE"; PilaT.push(4); PilaO.push(bC++);}| // 4 bool
 			FALSE  {Constantes[bC] = (char *)"FALSE"; PilaT.push(5); PilaO.push(bC++);}  // 0 noType
 varcte1: /* empty */ |  COO exp COC;

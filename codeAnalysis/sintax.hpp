@@ -103,12 +103,11 @@ typedef union YYSTYPE
 	float fval;
 	char *id;
 	char *ide;
-	char *sval;
 
 
 
 /* Line 2068 of yacc.c  */
-#line 112 "sintax.hpp"
+#line 111 "sintax.hpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
