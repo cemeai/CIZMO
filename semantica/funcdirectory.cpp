@@ -40,7 +40,6 @@ void addTypeVar(char* nameVar, int dir){
 bool findFunc( char* nameFunc){
 	for( list<functions>::iterator it = functionsL.begin(); it != functionsL.end(); it++)
 		if( strcmp(it->name, nameFunc) == 0 ){
-			cout << "founded";
 			return false;
 		}
 	return true;

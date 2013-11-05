@@ -156,9 +156,9 @@ te: /* empty */ | POR { GC_Expresiones_3(3); } termino | ENTRE { GC_Expresiones_
 factor: varcte | predef | PAO {GC_Expresiones_6();} expresion PAC {GC_Expresiones_7();};
 
 
-varcte: ID {nameVar = $1; GC_getDirAndType();} varcte1 |
+varcte: ID {nameVar = $1; GC_getDirAndType(); } varcte1 |
 			CINT   {char* buf = (char*)malloc( sizeof (int)); sprintf(buf,"%d", $1); 
-					Constantes[iC] = buf; PilaT.push(1); PilaO.push(iC++); }{cout << "HOLA";}| // 1 int
+					Constantes[iC] = buf; PilaT.push(1); PilaO.push(iC++); }| // 1 int
 			CFLOAT {char* buf = (char*)malloc( sizeof (float)); sprintf(buf,"%f", $1); 
 					Constantes[fC] = buf; PilaT.push(2); PilaO.push(fC++);}| // 2 float
 			STRING {Constantes[sC] = (char *)$1; PilaT.push(3); PilaO.push(sC++);}| // 3 string
