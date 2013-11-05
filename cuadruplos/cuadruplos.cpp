@@ -12,8 +12,10 @@ void addCuad(int operador, int dirOp1, int dirOp2, int res) {
 
 void editCuad(int cuad) {
 	int i = 1;
-	for( list<cuadruplo>::iterator it = cuadL.begin(); it != cuadL.end(); it++)
+	for( list<cuadruplo>::iterator it = cuadL.begin(); it != cuadL.end(); it++){
 		if( i == cuad) it->res = cuadActual;
+		i++;
+	}
 }
 
 void printAllCuads() {

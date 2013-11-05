@@ -13,9 +13,10 @@ void GC_Estatutos_gotoF(){
 
 /***** ( 2 ) *****/
 void GC_Estatutos_IF_2(){
-	if(!PilaO.empty()){
+	if(!PilaS.empty()){
+		cout<<"hola";
 		addCuad(14,-1,-1,-1);
-		int salto = PilaO.top(); PilaO.pop();
+		int salto = PilaS.top(); PilaS.pop();
 		editCuad(salto);
 		PilaS.push(cuadActual-1);
 	}
@@ -36,7 +37,7 @@ void GC_Estatutos_WHILE_1(){
 
 /***** ( 6 ) *****/
 void GC_Estatutos_WHILE_2(){
-	if(!PilaO.empty()){
+	if(!PilaS.empty()){
 		int salto = PilaS.top(); PilaS.pop();
 		int ciclo = PilaS.top(); PilaS.pop();
 		addCuad(14,-1,-1,ciclo);

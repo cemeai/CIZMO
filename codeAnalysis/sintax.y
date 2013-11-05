@@ -67,7 +67,6 @@ int iC = 24000, fC = 26000, sC = 28000, bC = 30000;
 int contFunc = 0;
 int contParam = 0;
 int contVars = 0;
-int scope = 0;
 char* nameVar = NULL;
 
 #include "../cuadruplos/GCI/GC_Expresiones.cpp"
@@ -98,7 +97,7 @@ void yyerror(const char *s);
 		TENER_TODOS_OBJS RECOGER_OBJ TERMINAR
 %%
 programa: { addFunc((char*)"global", contFunc); } p1 p2 PROGRAMA 
-		  { addFunc((char*)"main", ++contFunc); } LLO p1 p3 LLC;
+		  { addFunc((char*)"main", ++contFunc); } LLO p1 p3 LLC {YYACCEPT;};
 p1: /* empty */ | var p1;
 p2: /* empty */ | modulo;
 p3: cuerpo p4;
@@ -114,7 +113,7 @@ v5: /* empty */ | C CINT v5;
 
 
 modulo: FUNC ID { if( findFunc($2) ){ addFunc($2, ++contFunc); } } 
-			PAO m1 PAC LLO m2 LLC m6;
+			PAO m1 PAC {printAllCuads();} LLO m2 LLC m6;
 m1: /* empty */ | param;
 m2: m3 m4;
 m3: /* empty */ | var m3;
@@ -141,11 +140,11 @@ l1: /* empty */ | AND {GC_Expresiones_8(12);} l2 | OR {GC_Expresiones_8(13);} l2
 l2: expresion | pruebas;
 
 
-expresion: exp expr {GC_Expresiones_9(); } exp;
+expresion: exp expr exp { GC_Expresiones_9();};
 expr: MAY {GC_Expresiones_8(10);} | MEN { GC_Expresiones_8(8);} | MAYIG {GC_Expresiones_8(11);} | MENIG {GC_Expresiones_8(9);} | IGUAL {GC_Expresiones_8(7);} | DIF {GC_Expresiones_8(6);};
 
 
-exp: termino {GC_Expresiones_4();} exp1;
+exp: termino { GC_Expresiones_4(); } exp1;
 exp1: /* empty */ | MAS {GC_Expresiones_2(1);} exp | MENOS {GC_Expresiones_2(2);} exp;
 
 
@@ -158,7 +157,7 @@ factor: varcte | predef | PAO {GC_Expresiones_6();} expresion PAC {GC_Expresione
 
 varcte: ID {nameVar = $1; GC_getDirAndType(); } varcte1 |
 			CINT   {char* buf = (char*)malloc( sizeof (int)); sprintf(buf,"%d", $1); 
-					Constantes[iC] = buf; PilaT.push(1); PilaO.push(iC++); }| // 1 int
+					Constantes[iC] = buf; PilaT.push(1); PilaO.push(iC++);}| // 1 int
 			CFLOAT {char* buf = (char*)malloc( sizeof (float)); sprintf(buf,"%f", $1); 
 					Constantes[fC] = buf; PilaT.push(2); PilaO.push(fC++);}| // 2 float
 			STRING {Constantes[sC] = (char *)$1; PilaT.push(3); PilaO.push(sC++);}| // 3 string
@@ -167,7 +166,7 @@ varcte: ID {nameVar = $1; GC_getDirAndType(); } varcte1 |
 varcte1: /* empty */ |  COO exp COC;
 
 
-condicion: SI PAO logico PAC { GC_Estatutos_gotoF(); } LLO co1 LLC co3 { GC_Estatutos_IF_3(); };
+condicion: SI PAO logico PAC { GC_Estatutos_gotoF(); } LLO co1 LLC co3 { GC_Estatutos_IF_3();};
 co1: cuerpo co2;
 co2: /* empty */ | cuerpo co2;
 co3: /* empty */ | SINO { GC_Estatutos_IF_2(); } LLO co1 LLC;

@@ -1,1 +1,3 @@
-(
+FUNC a(){
+	VAR a = 0;
+	SI(a<1

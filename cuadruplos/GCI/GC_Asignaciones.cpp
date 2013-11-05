@@ -17,7 +17,7 @@ void GC_Asignaciones_2(){
 /***** ( 3 ) *****/
 void GC_Asignaciones_3(){
 	int dir; 
-	if(scope==0)
+	if(contFunc==0)
 	switch (PilaT.top()){
 		case 1: if(iG<2000) dir= iG++; else printf("ERROR\n"); break;
 		case 2: if(fG<4000) dir= fG++; else printf("ERROR\n"); break;
@@ -37,7 +37,7 @@ void GC_Asignaciones_3(){
 	Poper.pop();
 	PilaO.pop();
 	PilaO.pop();
-	printAllCuads(); /***** TESTING *****/
+	 /***** TESTING *****/
 }
 
 /***** ( 5 ) *****/
