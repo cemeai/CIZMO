@@ -19,8 +19,10 @@ void editCuad(int cuad) {
 }
 
 void printAllCuads() {
+	FILE* f = fopen("CI.txt","w");
 	for( list<cuadruplo>::iterator it = cuadL.begin(); it != cuadL.end(); it++)
-		printf("%d,%d,%d,%d\n", it->operador, it->dirOperando1, it->dirOperando2, it->res);
+		fprintf(f,"%d,%d,%d,%d\n", it->operador, it->dirOperando1, it->dirOperando2, it->res);
+	fclose(f);
 }
 
 int getActualCuad(){

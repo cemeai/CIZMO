@@ -1,12 +1,12 @@
 #include "../headers/funcdirectory.h"
 
 void addFunc( char* nameFunc, int scope ){
-	if( functionsL.empty() && strcmp( nameFunc, "global") != 0 ){
+	/*if( functionsL.empty() && strcmp( nameFunc, "global") != 0 ){
 		funcion = (functions*) malloc( sizeof (functions));
 		funcion->scope = scope++;
 		funcion->name = (char*)"global";
 		functionsL.push_back(*funcion);
-	}
+	}*/
 	funcion = (functions*) malloc( sizeof (functions));
 	funcion->scope = scope;
 	funcion->name = nameFunc;

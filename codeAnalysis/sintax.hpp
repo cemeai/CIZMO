@@ -86,7 +86,8 @@
      INTERSECCION_OBJ = 304,
      TENER_TODOS_OBJS = 305,
      RECOGER_OBJ = 306,
-     TERMINAR = 307
+     TERMINAR = 307,
+     RETURN = 308
    };
 #endif
 
@@ -107,7 +108,7 @@ typedef union YYSTYPE
 
 
 /* Line 2068 of yacc.c  */
-#line 111 "sintax.hpp"
+#line 112 "sintax.hpp"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

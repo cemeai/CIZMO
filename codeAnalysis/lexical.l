@@ -6,29 +6,22 @@
 using namespace std;
 #define YY_DECL extern "C" int yylex()
 
-#include "sintax.hpp"  // to get the token types that we return
-int enter_dblquotes = 0;
+#include "sintax.tab.h"  // to get the token types that we return
+
 %}
-%option yylineno
-
-%x DBLQUOTES
 %%
-
-\"  { BEGIN(DBLQUOTES); }
-<DBLQUOTES>{
-\"	{BEGIN(INITIAL); return STRING; }
-}
 PROGRAMA 	{return PROGRAMA;}
 FUNC 		{return FUNC;}
-SI		{return SI;}
+SI			{return SI;}
 SINO 		{return SINO;}
 IMPRIMIR 	{return IMPRIMIR;}
 MIENTRAS 	{return MIENTRAS;}
+RETORNA 	{return RETORN;}
 DETENER 	{return DETENER;}
 MOVER_ADELANTE 		{return MOVER_ADELANTE;}
 CARGAR_MAPA 		{return CARGAR_MAPA;}
 MOVER_ATRAS 		{return MOVER_ATRAS;}
-TERMINAR 		{return TERMINAR;}
+TERMINAR 			{return TERMINAR;}
 CAMINO_DESPEJADO 	{return CAMINO_DESPEJADO;}
 CAMINO_BLOQUEADO 	{return CAMINO_BLOQUEADO;}
 INTERSECCION_OBJ 	{return INTERSECCION_OBJ;}
@@ -46,7 +39,7 @@ VAR 		{return VAR;}
 "}" 		{return LLC;}
 "(" 		{return PAO;}
 ")" 		{return PAC;}
-"["		{return COO;}
+"["			{return COO;}
 "]" 		{return COC;}
 "+" 		{return MAS;}
 "-" 		{return MENOS;}
@@ -66,4 +59,5 @@ VAR 		{return VAR;}
 [a-z|][a-z|A-z|0-9]* 	{yylval.id = (char*) strdup(yytext); return ID;}
 [0-9]* 					{yylval.ival = atoi(yytext); return CINT;}
 [0-9][0-9]*"."[0-9][0-9]* {yylval.fval = atof(yytext); return CFLOAT;}
+\"[]\" 				{yylval.sval = strdup(yytext); return STRING;}
 %%

@@ -93,10 +93,10 @@ void yyerror(const char *s);
 		IGUAL MAY MAYIG MENIG MEN NOT DIF MAS MENOS POR 
 		ENTRE C PC PUNTO DP TRUE FALSE AND OR 
 		CAMINO_DESPEJADO CAMINO_BLOQUEADO INTERSECCION_OBJ
-		TENER_TODOS_OBJS RECOGER_OBJ TERMINAR
+		TENER_TODOS_OBJS RECOGER_OBJ TERMINAR RETURN
 %%
 programa: { addFunc((char*)"global", contFunc); } p1 p2 PROGRAMA 
-		  { addFunc((char*)"main", ++contFunc); } LLO p1 p3 LLC {YYACCEPT;};
+		  { addFunc((char*)"main", ++contFunc); } LLO p1 p3 LLC {printAllCuads();YYACCEPT;};
 p1: /* empty */ | var p1;
 p2: /* empty */ | modulo;
 p3: cuerpo p4;
@@ -112,7 +112,7 @@ v5: /* empty */ | C CINT v5;
 
 
 modulo: FUNC ID { if( findFunc($2) ){ addFunc($2, ++contFunc); } } 
-			PAO m1 PAC {printAllCuads();} LLO m2 LLC m6;
+			PAO m1 PAC LLO m2 LLC m6;
 m1: /* empty */ | param;
 m2: m3 m4;
 m3: /* empty */ | var m3;
@@ -122,12 +122,16 @@ m6: m7;
 m7: /* empty */ | modulo;
 
 
-param: VAR ID pa;
+param: ID { nameVar = $1; if(findVar(nameVar) == -1) addVar(nameVar); } 
+	   DP ID {} pa;
 pa: /* empty */|C param;
 
 
-cuerpo: asignacion C1 | condicion | ciclo | predef C1 | imprimir C1;
+cuerpo: asignacion C1 | condicion | ciclo | predef C1 | imprimir C1 | retorno;
 C1: PC;
+
+
+retorno: RETURN exp;
 
 
 asignacion: ID {nameVar = $1; GC_getDirAndType();} as ASIGNACION {GC_Asignaciones_2();} exp {GC_Asignaciones_5();};

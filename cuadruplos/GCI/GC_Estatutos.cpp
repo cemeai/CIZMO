@@ -14,7 +14,6 @@ void GC_Estatutos_gotoF(){
 /***** ( 2 ) *****/
 void GC_Estatutos_IF_2(){
 	if(!PilaS.empty()){
-		cout<<"hola";
 		addCuad(14,-1,-1,-1);
 		int salto = PilaS.top(); PilaS.pop();
 		editCuad(salto);
