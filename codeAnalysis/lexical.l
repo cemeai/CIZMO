@@ -16,7 +16,7 @@ SI			{return SI;}
 SINO 		{return SINO;}
 IMPRIMIR 	{return IMPRIMIR;}
 MIENTRAS 	{return MIENTRAS;}
-RETORNA 	{return RETORN;}
+RETORNA 	{return RETURN;}
 DETENER 	{return DETENER;}
 MOVER_ADELANTE 		{return MOVER_ADELANTE;}
 CARGAR_MAPA 		{return CARGAR_MAPA;}
@@ -59,5 +59,4 @@ VAR 		{return VAR;}
 [a-z|][a-z|A-z|0-9]* 	{yylval.id = (char*) strdup(yytext); return ID;}
 [0-9]* 					{yylval.ival = atoi(yytext); return CINT;}
 [0-9][0-9]*"."[0-9][0-9]* {yylval.fval = atof(yytext); return CFLOAT;}
-\"[]\" 				{yylval.sval = strdup(yytext); return STRING;}
 %%
