@@ -9,7 +9,15 @@ using namespace std;
 #include "sintax.tab.h"  // to get the token types that we return
 
 %}
+%xDBLQUOTES
 %%
+
+\" { BEGIN(DBLQUOTES); }
+<DBLQUOTES>{
+	\"	{BEGIN(INITIAL);
+		return STRING;
+	}
+}
 PROGRAMA 	{return PROGRAMA;}
 FUNC 		{return FUNC;}
 SI			{return SI;}
