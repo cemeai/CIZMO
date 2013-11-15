@@ -21,5 +21,6 @@ stack<int> PilaS;
 int cuadActual = 1;
 
 void addCuad(int operador, int dirOp1, int dirOp2, int res);
+void editCuad(int cuad);
 void printAllCuads();
 int getActualCuad();

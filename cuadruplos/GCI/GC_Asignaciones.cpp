@@ -5,7 +5,7 @@ void GC_Asignaciones_1(){
 		PilaO.push(-1);
 		PilaT.push(-1);
 	} else {						//si si existe manda error de existencia
-		cout << "ERROR: la var ya existe\n";
+		yyerror("ERROR la variable ya existe\n");
 	}
 }
 
@@ -52,6 +52,5 @@ void GC_Asignaciones_5(){
 			int dir2 = PilaO.top(); PilaO.pop();
 			addCuad(operador,dir1,-1,dir2);
 		}
-		printAllCuads(); /***** TESTING *****/
 	}
 }

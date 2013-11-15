@@ -9,7 +9,8 @@ using namespace std;
 struct functions{
 	int scope;
 	char* name;
-	int parametros;
+	int params;
+	int inCuad;
 	map<char*, int> vars;
 };
 
@@ -22,4 +23,10 @@ void addFunc( char* nameFunc, int id );
 void addVar( char* nameVar );
 int findVar( char* nameVar);
 void addTypeVar(char* nameVar, int dir);
+void addTypeParam(char* nameVar, char* type);
 bool findFunc( char* nameFunc );
+int getFuncScope(char* nameFunc);
+int getFuncVarType(int iFunc, int iVar);
+int getFuncParamsCount(int iFunc);
+int getFuncInCuad(int iFunc);
+void addInCuadAndParams(int p, int c);

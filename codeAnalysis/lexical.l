@@ -6,12 +6,11 @@
 using namespace std;
 #define YY_DECL extern "C" int yylex()
 
-#include "sintax.tab.h"  // to get the token types that we return
+#include "sintax.hpp"  // to get the token types that we return
 
 %}
-%xDBLQUOTES
+%x DBLQUOTES
 %%
-
 \" { BEGIN(DBLQUOTES); }
 <DBLQUOTES>{
 	\"	{BEGIN(INITIAL);
@@ -24,7 +23,7 @@ SI			{return SI;}
 SINO 		{return SINO;}
 IMPRIMIR 	{return IMPRIMIR;}
 MIENTRAS 	{return MIENTRAS;}
-RETORNA 	{return RETURN;}
+RETORNA 	{return RETORNO;}
 DETENER 	{return DETENER;}
 MOVER_ADELANTE 		{return MOVER_ADELANTE;}
 CARGAR_MAPA 		{return CARGAR_MAPA;}

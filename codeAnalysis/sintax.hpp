@@ -87,7 +87,7 @@
      TENER_TODOS_OBJS = 305,
      RECOGER_OBJ = 306,
      TERMINAR = 307,
-     RETURN = 308
+     RETORNO = 308
    };
 #endif
 
@@ -98,7 +98,7 @@ typedef union YYSTYPE
 {
 
 /* Line 2068 of yacc.c  */
-#line 79 "sintax.y"
+#line 84 "sintax.y"
 
 	int ival;
 	float fval;
