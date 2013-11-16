@@ -13,7 +13,7 @@ extern "C" FILE *yyin;
 //		  1  2  3  4  5  6  7  8  9  10 11 12 13
 //        +  -  *  /  =  != == <  <= >  >= && ||
 //	1 int
-//		  1, 1, 2, 2, 1, 4, 4, 4, 4, 4, 4, E, E 	1 int
+//		  1, 1, 1, 2, 1, 4, 4, 4, 4, 4, 4, E, E 	1 int
 //		  2, 2, 2, 2, 2, 4, 4, 4, 4, 4, 4, E, E 	2 float
 //		  3, E, E, E, E, E, E, E, E, E, E, E, E 	3 string
 //		  E, E, E, E, E, E, E, E, E, E, E, E, E 	4 bool
@@ -33,8 +33,19 @@ extern "C" FILE *yyin;
 //		  E, E, E, E, E, E, E, E, E, E, E, E, E 	3 string
 //		  E, E, E, E, E, E, E, E, E, E, E, 4, 4 	4 bool
 
-// 14 gotoF 15 goto 16 return 17 endF 18 endP 
-// 19 era 20 param 21 gosub
+// 14 gotoF 15 goto  16 return 17 endF  18 endP 
+// 19 era   20 param 21 gosub 22 predef 23 boolFuncs
+// cuadruplos de funciones predefinidas
+// 21 -1 22 1  DETENER
+// 21 -1 22 2  MOVER_ADELANTE
+// 21 -1 22 3  ROTAR
+// 21 -1 22 4  RECOGER_OBJ
+// 21 -1 22 5  CARGAR_MAPA
+// 21 -1 22 6  TERMINAR
+// 23 -1 -1 1  CAMINO_DESPEJADO
+// 23 -1 -1 2  CAMINO_BLOQUEADO
+// 23 -1 -1 3  INTERSECCION_OBJ
+// 23 -1 -1 4  TENER_TODOS_OBJS
 
 /*
 ----------VARIABLES GLOBALES--------------
@@ -70,6 +81,8 @@ int contVars = 0;
 int params = 0;
 char* nameVar = NULL;
 int indexFunc = 0;
+int iPredef = 0;
+bool predef = false;
 
 void yyerror(const char *s);
 
@@ -106,8 +119,7 @@ programa: { addCuad(15,-1,-1,-1); }
 		  { addFunc((char*)"main", ++contFunc); } LLO p1 p3 LLC {printAllCuads();YYACCEPT;};
 p1: /* empty */ | var p1;
 p2: /* empty */ | modulo;
-p3: cuerpo p4;
-p4: /* empty */ | cuerpo p4;
+p3: /* empty */ | cuerpo p3;
 
 
 var: VAR ID { nameVar = $2; GC_Asignaciones_1();} v1 PC;
@@ -125,10 +137,8 @@ modulo: FUNC ID { iL = 8000; fL = 10000; sL = 12000; bL = 14000;
 m1: /* empty */ | { params = 0; } param;
 m2: m3 m4;
 m3: /* empty */ | var m3;
-m4: cuerpo m5;
-m5: /* empty */ | cuerpo m5;
-m6: m7;
-m7: /* empty */ | modulo;
+m4: /* empty */ | cuerpo m4;
+m6: /* empty */ | modulo;
 
 
 param: ID DP ID { nameVar = $1; 
@@ -141,16 +151,15 @@ cuerpo: asignacion C1 | condicion | ciclo | predef C1 | imprimir C1 | retorno;
 C1: PC;
 
 
-retorno: RETORNO exp { addCuad(16,PilaO.top(),-1,-1); PilaO.pop(); PilaT.pop(); };
+retorno: RETORNO exp { addCuad(16,PilaO.top(),-1,-1); PilaO.pop(); PilaT.pop(); } PC;
 
 
 asignacion: ID {nameVar = $1; GC_getDirAndType();} as ASIGNACION {GC_Asignaciones_2();} exp {GC_Asignaciones_5();};
 as: /* empty */ | COO exp COC;
 
 
-logico: expresion {GC_Expresiones_11();} l1;
-l1: /* empty */ | AND {GC_Expresiones_8(12);} l2 | OR {GC_Expresiones_8(13);} l2;
-l2: expresion | pruebas;
+logico: expresion {GC_Expresiones_11();} l1 | pruebas l1;
+l1: /* empty */ | AND {GC_Expresiones_8(12);} logico | OR {GC_Expresiones_8(13);} logico;
 
 
 expresion: exp expr exp { GC_Expresiones_9();};
@@ -192,8 +201,12 @@ ci1: cuerpo ci2;
 ci2: /* empty */ | cuerpo ci2;
 
 
-predef: pdfunc PAO pred1 PAC { if( params != getFuncParamsCount(indexFunc) ) yyerror("ERROR los parametros no concuerda con la funcion definida\n"); 
-				addCuad(21,-1,-1,getFuncInCuad(indexFunc));};
+predef: pdfunc PAO pred1 PAC { 
+			if( predef == false ){
+				if( params != getFuncParamsCount(indexFunc) ) yyerror("ERROR los parametros no concuerda con la funcion definida\n"); 
+					addCuad(21,-1,-1,getFuncInCuad(indexFunc));
+			} else { addCuadPredef(iPredef); predef = false; }
+			};
 pred1: exp { if( PilaT.top() == getFuncVarType(indexFunc,++params)){ 
 				addCuad(20,PilaO.top(),-1,params);
 			} else  yyerror("ERROR tipos de parametros no son compatibles con la funcion\n");}
@@ -206,14 +219,22 @@ imp1: varcte imp2;
 imp2: /* empty */ | C imp1;
 
 
-pdfunc:DETENER | MOVER_ADELANTE | ROTAR | RECOGER_OBJ | CARGAR_MAPA | TERMINAR | 
+pdfunc: DETENER {predef = true; iPredef = 1;}| 
+		MOVER_ADELANTE {predef = true; iPredef = 2;}| 
+		ROTAR {predef = true; iPredef = 3;}| 
+		RECOGER_OBJ {predef = true; iPredef = 4;}| 
+		CARGAR_MAPA {predef = true; iPredef = 5;}| 
+		TERMINAR {predef = true; iPredef = 6;}| 
 		ID { if( !findFunc($1) ) yyerror("ERROR la funcion no existe\n");
 		 	 else indexFunc = getFuncScope($1); 
 		 	 addCuad(19,indexFunc,-1,-1); 
 		 	 params = 0; };
 
 
-pruebas: CAMINO_DESPEJADO | CAMINO_BLOQUEADO | INTERSECCION_OBJ | TENER_TODOS_OBJS;
+pruebas: CAMINO_DESPEJADO { addCuad(23,-1,-1,1); }| 
+		 CAMINO_BLOQUEADO { addCuad(23,-1,-1,2); }| 
+		 INTERSECCION_OBJ { addCuad(23,-1,-1,3); }| 
+		 TENER_TODOS_OBJS { addCuad(23,-1,-1,4); };
 
 %%
 main() {

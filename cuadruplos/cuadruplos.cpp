@@ -18,6 +18,10 @@ void editCuad(int cuad) {
 	}
 }
 
+void addCuadPredef(int func){
+	addCuad(21,-1,22,func);
+}
+
 void printAllCuads() {
 	FILE* f = fopen("CI.txt","w");
 	for( list<cuadruplo>::iterator it = cuadL.begin(); it != cuadL.end(); it++)

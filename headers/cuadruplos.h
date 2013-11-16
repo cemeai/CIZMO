@@ -22,5 +22,6 @@ int cuadActual = 1;
 
 void addCuad(int operador, int dirOp1, int dirOp2, int res);
 void editCuad(int cuad);
+void addCuadPredef(int func);
 void printAllCuads();
 int getActualCuad();
