@@ -62,8 +62,8 @@ VAR 		{return VAR;}
 ">=" 		{return MAYIG;}
 "<" 		{return MEN;}
 "<=" 		{return MENIG;}
-[A-Z][a-z|A-z|0-9]* 	{yylval.ide = (char*) strdup(yytext); return IDE;}
-[a-z|][a-z|A-z|0-9]* 	{yylval.id = (char*) strdup(yytext); return ID;}
+
+[a-z][a-z|A-Z|0-9]*	 	{yylval.id = (char*) strdup(yytext); return ID;}
 [0-9]* 					{yylval.ival = atoi(yytext); return CINT;}
 [0-9][0-9]*"."[0-9][0-9]* {yylval.fval = atof(yytext); return CFLOAT;}
 %%

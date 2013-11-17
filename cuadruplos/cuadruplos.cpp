@@ -47,6 +47,21 @@ void addCuadsArrInic(char* nameVar, int sizeByCount, int dirBaseArr){
 	
 }
 
+void addCuadsArrAsig(char* nameVar, int sizeByCount, int dirBaseArr){
+	char* buf = NULL;
+		
+	Poper.push(25);
+	buf = (char*)malloc( sizeof (int)); sprintf(buf,"%d", 1);
+	Constants[iC] = buf; PilaO.push(iC++); PilaT.push(1);
+	PilaO.push(dirBaseArr); PilaT.push(1);
+	GC_Expresiones_4();
+
+	Poper.push(3);
+	buf = (char*)malloc( sizeof (int)); sprintf(buf,"%d", -1); 
+	Constants[iC] = buf; PilaO.push(iC++); PilaT.push(1);
+	GC_Expresiones_5();
+}
+
 void printAllCuads() {
 	FILE* f = fopen("CI.txt","w");
 	for( list<cuadruplo>::iterator it = cuadL.begin(); it != cuadL.end(); it++)

@@ -101,6 +101,14 @@ bool findFunc(char* nameFunc){
 	return false;
 }
 
+int findArrSize(char* nameVar){
+	int size = 0;
+	for( map<char*, int>::iterator it = sizeArr.begin(); it != sizeArr.end(); it++)
+		if(strcmp(it->first, nameVar) == 0)
+			size = it->second;
+	return size;
+}
+
 int getFuncScope(char* nameFunc){
 	for( list<functions>::iterator it = functionsL.begin(); it != functionsL.end(); it++)
 		if( strcmp(it->name, nameFunc) == 0 )
@@ -151,10 +159,6 @@ int getFuncInCuad(int iFunc){
 		i++;
 	}
 	return -1;
-}
-
-int getSizeArr(char* nameVar){
-	
 }
 
 void addInCuadAndParams(int p, int c){

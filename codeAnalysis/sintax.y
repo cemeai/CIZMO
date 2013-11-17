@@ -137,12 +137,14 @@ p2: /* empty */ | modulo;
 p3: /* empty */ | cuerpo p3;
 
 
-var: VAR ID { nameVar = $2; } v1 PC;
-v1: v2 | COO CINT COC DP ID {
+var: VAR ID { nameVar = $2; GC_Asignaciones_1(); }v1 PC;
+v1: v2 |COO CINT COC DP ID {
+			PilaT.pop(); PilaO.pop();
 			sizeArr[nameVar] = $2; 
 			char* type = $5;
-			addType( nameVar, type, $2 - 1); };
-v2: ASIGNACION { GC_Asignaciones_1(); GC_Asignaciones_2();} v3;
+			addType( nameVar, type, sizeArr.find(nameVar)->second); };
+
+v2: ASIGNACION { GC_Asignaciones_2();} v3;
 v3: exp {GC_Asignaciones_3();} | 
 	LLO exp { sizeByCount++; typeArr = PilaT.top();
 			  dataArr.push_back(PilaO.top()); PilaO.pop(); 
@@ -187,7 +189,11 @@ retorno: RETORNO exp { addCuad(16,PilaO.top(),-1,-1); PilaO.pop(); PilaT.pop(); 
 
 
 asignacion: ID {nameVar = $1; GC_getDirAndType();} as ASIGNACION {GC_Asignaciones_2();} exp {GC_Asignaciones_5();};
-as: /* empty */ | COO exp COC;
+as: /* empty */ |  COO exp COC 
+			{	cout << nameVar << " " << findVar(nameVar);
+				addCuad(26,PilaO.top(),0,findArrSize(nameVar)-1);
+				addCuadsArrAsig(nameVar, findArrSize(nameVar), findVar(nameVar));
+			};
 
 
 logico: expresion {GC_Expresiones_11();} l1 | pruebas l1 | ID l1;
@@ -209,18 +215,14 @@ te: /* empty */ | POR { GC_Expresiones_2(3); } termino | ENTRE { GC_Expresiones_
 factor: varcte | predef | PAO {GC_Expresiones_6();} exp PAC {GC_Expresiones_7();};
 
 
-varcte: ID {nameVar = $1; GC_getDirAndType(); } varcte1 |
+varcte: ID {nameVar = $1; GC_getDirAndType(); } |
 			CINT   {char* buf = (char*)malloc( sizeof (int)); sprintf(buf,"%d", $1); 
-					Constants[iC] = buf; PilaT.push(1); PilaO.push(iC++);}| // 1 int
+					Constants[iC] = buf; PilaT.push(1); PilaO.push(iC++);}| 			// 1 int
 			CFLOAT {char* buf = (char*)malloc( sizeof (float)); sprintf(buf,"%f", $1); 
-					Constants[fC] = buf; PilaT.push(2); PilaO.push(fC++);}| // 2 float
-			STRING { PilaT.push(3); PilaO.push(sC++);}| // 3 string
-			TRUE   {Constants[bC] = (char *)"TRUE"; PilaT.push(4); PilaO.push(bC++);}| // 4 bool
-			FALSE  {Constants[bC] = (char *)"FALSE"; PilaT.push(5); PilaO.push(bC++);}  // 0 noType
-varcte1: /* empty */ |  COO exp COC 
-			{	
-				addCuadsArrInic(nameVar, sizeArr.find(nameVar)->second, getSizeArr((char*)"a"));
-			};
+					Constants[fC] = buf; PilaT.push(2); PilaO.push(fC++);}| 			// 2 float
+			STRING { PilaT.push(3); PilaO.push(sC++);}| 								// 3 string
+			TRUE   {Constants[bC] = (char *)"TRUE"; PilaT.push(4); PilaO.push(bC++);}| 	// 4 bool
+			FALSE  {Constants[bC] = (char *)"FALSE"; PilaT.push(5); PilaO.push(bC++);}; // 0 noType
 
 
 condicion: SI PAO logico PAC { GC_Estatutos_gotoF(); } LLO co1 LLC co3 { GC_Estatutos_IF_3();};
