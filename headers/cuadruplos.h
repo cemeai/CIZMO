@@ -18,10 +18,12 @@ stack<int> PilaO;
 stack<int> Poper;
 stack<int> PilaT;
 stack<int> PilaS;
+list<int> dataArr;
 int cuadActual = 1;
 
 void addCuad(int operador, int dirOp1, int dirOp2, int res);
 void editCuad(int cuad);
 void addCuadPredef(int func);
+void addCuadsArrInic(char* nameVar, int sizeByCount, int dirBaseArr);
 void printAllCuads();
 int getActualCuad();

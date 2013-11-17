@@ -30,7 +30,7 @@ void GC_Asignaciones_3(){
 		case 3: if(sL<14000) dir= sL++; else printf("ERROR\n"); break;
 		case 4: if(bL<16000) dir= bL++; else printf("ERROR\n"); break;
 		}
-	addTypeVar( nameVar, dir);
+	addType( nameVar, dir);
 	PilaT.pop();
 	PilaT.pop();
 	addCuad(Poper.top(),PilaO.top(),-1,dir);

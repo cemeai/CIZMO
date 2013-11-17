@@ -33,11 +33,11 @@ int findVar( char* nameVar){
 	return dir;
 }
 
-void addTypeVar(char* nameVar, int dir){
+void addType(char* nameVar, int dir){
 	functionsL.rbegin()->vars[nameVar] = dir;
 }
 
-void addTypeParam(char* nameVar, char* type){
+void addType(char* nameVar, char* type){
 	int dir;
 		 if(strcmp(type, "i") == 0) 
 		dir= iL++;
@@ -50,7 +50,47 @@ void addTypeParam(char* nameVar, char* type){
 	else printf("NO ES UN TIPO DE DATO\n");
 
 	functionsL.rbegin()->vars[nameVar] = dir;
-	params++;
+}
+
+void addType(char* nameVar, char* type, int size){
+	int dir;
+	int scope = functionsL.rbegin()->scope;
+	if(strcmp(type, "i") == 0){
+		if(scope > 0){ dir= iL; iL+=size; }
+		else { dir= iG; iG+=size; }
+	}else if(strcmp(type, "f") == 0){ 
+		if(scope > 0){ dir= fL; fL+=size; }
+		else { dir= fG; fG+=size; }
+	}else if(strcmp(type, "s") == 0){
+		if(scope > 0){ dir= sL; sL+=size; }
+		else { dir= sG; sG+=size; }
+	}else if(strcmp(type, "b") == 0){
+		if(scope > 0){ dir= bL; bL+=size; }
+		else { dir= bG; bG+=size; }
+	}else printf("NO ES UN TIPO DE DATO\n");
+
+	functionsL.rbegin()->vars[nameVar] = dir;
+}
+
+int addType(char* nameVar, int type, int size){
+	int dir;
+	int scope = functionsL.rbegin()->scope;
+	if( type == 1 ){
+		if(scope > 0){ dir= iL; iL+=size; }
+		else { dir= iG; iG+=size; }
+	}else if( type == 2 ){ 
+		if(scope > 0){ dir= fL; fL+=size; }
+		else { dir= fG; fG+=size; }
+	}else if( type == 3 ){
+		if(scope > 0){ dir= sL; sL+=size; }
+		else { dir= sG; sG+=size; }
+	}else if( type == 4 ){
+		if(scope > 0){ dir= bL; bL+=size; }
+		else { dir= bG; bG+=size; }
+	}else printf("NO ES UN TIPO DE DATO\n");
+
+	functionsL.rbegin()->vars[nameVar] = dir;
+	return dir;
 }
 
 bool findFunc(char* nameFunc){
@@ -111,6 +151,10 @@ int getFuncInCuad(int iFunc){
 		i++;
 	}
 	return -1;
+}
+
+int getSizeArr(char* nameVar){
+	
 }
 
 void addInCuadAndParams(int p, int c){

@@ -16,9 +16,13 @@ void GC_getDirAndType(){
 void constructCuad(){
 	int tipo1= PilaT.top() - 1; PilaT.pop();
 	int tipo2= PilaT.top() - 1; PilaT.pop();
-	int operador = Poper.top() - 1;
-	int tipoR= askTheCubo(tipo1,tipo2, operador);
+	int operador = 0;
+	if( Poper.top() == 25 ) 
+		operador = 0;
+	else operador = Poper.top() - 1;
+	int tipoR = askTheCubo(tipo1, tipo2, operador);
 	int dirT;
+	operador = Poper.top() - 1;
 	if(tipoR!=0){
 		Poper.pop();
 		int dir1 = PilaO.top(); PilaO.pop();
@@ -42,16 +46,10 @@ void GC_Expresiones_2(int p){
 Poper.push(p);
 }
 
-
-/***** ( 3 ) *****/
-void GC_Expresiones_3(int p){
-Poper.push(p);
-}
-
 /***** ( 4 ) *****/
 void GC_Expresiones_4(){
 	if(!PilaO.empty() && !Poper.empty()){ 
-		if(Poper.top()==1 || Poper.top() == 2){
+		if(Poper.top() == 1 || Poper.top() == 2 || Poper.top() == 25){
 			constructCuad();
 		}
 	}
@@ -73,12 +71,7 @@ void GC_Expresiones_6(){
 
 /***** ( 7 ) *****/
 void GC_Expresiones_7(){
-	if(Poper.empty()) Poper.pop();
-}
-
-/***** ( 8 ) *****/
-void GC_Expresiones_8(int p){
-	Poper.push(p);
+	if(!Poper.empty()) Poper.pop();
 }
 
 /***** ( 9 ) *****/

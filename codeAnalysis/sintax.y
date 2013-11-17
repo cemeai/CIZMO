@@ -23,7 +23,7 @@ extern "C" FILE *yyin;
 //		  3, E, E, E, E, E, E, E, E, E, E, E, E 	3 string
 //		  E, E, E, E, E, E, E, E, E, E, E, E, E 	4 bool
 //	3 string
-//		  3, E, E, E, E, 4, 4, 4, 4, 4, 4, E, E 	1 int
+//		  3, E, E, E, E, E, E, E, E, E, E, E, E 	1 int
 //		  3, E, E, E, E, E, E, E, E, E, E, E, E 	2 float
 //		  3, E, E, E, E, E, E, E, E, E, E, E, E 	3 string
 //		  E, E, E, E, E, E, E, E, E, E, E, E, E 	4 bool
@@ -33,9 +33,21 @@ extern "C" FILE *yyin;
 //		  E, E, E, E, E, E, E, E, E, E, E, E, E 	3 string
 //		  E, E, E, E, E, E, E, E, E, E, E, 4, 4 	4 bool
 
-// 14 gotoF 15 goto  16 return 17 endF  18 endP 
-// 19 era   20 param 21 gosub 22 predef 23 boolFuncs
+/*	14 gotoF 
+	15 goto  
+	16 return 
+	17 endF  
+	18 endP 
+	19 era   
+	20 param 
+	21 gosub 
+	22 predef 
+	23 boolFuncs
+	24 imprimir 
+	25 sumaEspecial 
+	26 verificar
 // cuadruplos de funciones predefinidas
+*/
 // 21 -1 22 1  DETENER
 // 21 -1 22 2  MOVER_ADELANTE
 // 21 -1 22 3  ROTAR
@@ -83,6 +95,9 @@ char* nameVar = NULL;
 int indexFunc = 0;
 int iPredef = 0;
 bool predef = false;
+int sizeByCount = 0;
+int typeArr = 0;
+int dirBaseArr = 0;
 
 void yyerror(const char *s);
 
@@ -122,12 +137,29 @@ p2: /* empty */ | modulo;
 p3: /* empty */ | cuerpo p3;
 
 
-var: VAR ID { nameVar = $2; GC_Asignaciones_1();} v1 PC;
-v1: v2 | COO CINT COC;
-v2: ASIGNACION {GC_Asignaciones_2();} v3;
-v3: exp {GC_Asignaciones_3();} | LLO v4 LLC;
-v4: CINT v5;
-v5: /* empty */ | C CINT v5;
+var: VAR ID { nameVar = $2; } v1 PC;
+v1: v2 | COO CINT COC DP ID {
+			sizeArr[nameVar] = $2; 
+			char* type = $5;
+			addType( nameVar, type, $2 - 1); };
+v2: ASIGNACION { GC_Asignaciones_1(); GC_Asignaciones_2();} v3;
+v3: exp {GC_Asignaciones_3();} | 
+	LLO exp { sizeByCount++; typeArr = PilaT.top();
+			  dataArr.push_back(PilaO.top()); PilaO.pop(); 
+			  dataArr.push_back(PilaT.top()); PilaT.pop();
+			 } v4 LLC
+				{	sizeArr[nameVar] = sizeByCount;
+					dirBaseArr = addType( nameVar, typeArr, sizeByCount);
+					addCuadsArrInic(nameVar, sizeByCount, dirBaseArr);
+				};
+v4: /* empty */ | C exp { 
+					if( PilaT.top() != typeArr) 
+						yyerror("ERROR tipos no compatibles con el arreglo\n");
+					else{
+						sizeByCount++; dataArr.push_back(PilaO.top()); 
+						dataArr.push_back(PilaT.top());
+						PilaO.pop(); PilaT.pop(); } 
+					} v4;
 
 
 modulo: FUNC ID { iL = 8000; fL = 10000; sL = 12000; bL = 14000;
@@ -143,7 +175,7 @@ m6: /* empty */ | modulo;
 
 param: ID DP ID { nameVar = $1; 
 		if(findVar(nameVar) == -1) addVar(nameVar); 
-	    char* type = $3; addTypeParam( nameVar, type);} pa;
+	    char* type = $3; addType( nameVar, type); params++;} pa;
 pa: /* empty */|C param;
 
 
@@ -158,12 +190,12 @@ asignacion: ID {nameVar = $1; GC_getDirAndType();} as ASIGNACION {GC_Asignacione
 as: /* empty */ | COO exp COC;
 
 
-logico: expresion {GC_Expresiones_11();} l1 | pruebas l1;
-l1: /* empty */ | AND {GC_Expresiones_8(12);} logico | OR {GC_Expresiones_8(13);} logico;
+logico: expresion {GC_Expresiones_11();} l1 | pruebas l1 | ID l1;
+l1: /* empty */ | AND {GC_Expresiones_2(12);} logico | OR {GC_Expresiones_2(13);} logico;
 
 
 expresion: exp expr exp { GC_Expresiones_9();};
-expr: MAY {GC_Expresiones_8(10);} | MEN { GC_Expresiones_8(8);} | MAYIG {GC_Expresiones_8(11);} | MENIG {GC_Expresiones_8(9);} | IGUAL {GC_Expresiones_8(7);} | DIF {GC_Expresiones_8(6);};
+expr: MAY {GC_Expresiones_2(10);} | MEN { GC_Expresiones_2(8);} | MAYIG {GC_Expresiones_2(11);} | MENIG {GC_Expresiones_2(9);} | IGUAL {GC_Expresiones_2(7);} | DIF {GC_Expresiones_2(6);};
 
 
 exp: termino { GC_Expresiones_4(); } exp1;
@@ -171,21 +203,24 @@ exp1: /* empty */ | MAS {GC_Expresiones_2(1);} exp | MENOS {GC_Expresiones_2(2);
 
 
 termino: factor { GC_Expresiones_5(); } te;
-te: /* empty */ | POR { GC_Expresiones_3(3); } termino | ENTRE { GC_Expresiones_3(4); } termino;
+te: /* empty */ | POR { GC_Expresiones_2(3); } termino | ENTRE { GC_Expresiones_2(4); } termino;
 
 
-factor: varcte | predef | PAO {GC_Expresiones_6();} expresion PAC {GC_Expresiones_7();};
+factor: varcte | predef | PAO {GC_Expresiones_6();} exp PAC {GC_Expresiones_7();};
 
 
 varcte: ID {nameVar = $1; GC_getDirAndType(); } varcte1 |
 			CINT   {char* buf = (char*)malloc( sizeof (int)); sprintf(buf,"%d", $1); 
-					Constantes[iC] = buf; PilaT.push(1); PilaO.push(iC++);}| // 1 int
+					Constants[iC] = buf; PilaT.push(1); PilaO.push(iC++);}| // 1 int
 			CFLOAT {char* buf = (char*)malloc( sizeof (float)); sprintf(buf,"%f", $1); 
-					Constantes[fC] = buf; PilaT.push(2); PilaO.push(fC++);}| // 2 float
+					Constants[fC] = buf; PilaT.push(2); PilaO.push(fC++);}| // 2 float
 			STRING { PilaT.push(3); PilaO.push(sC++);}| // 3 string
-			TRUE   {Constantes[bC] = (char *)"TRUE"; PilaT.push(4); PilaO.push(bC++);}| // 4 bool
-			FALSE  {Constantes[bC] = (char *)"FALSE"; PilaT.push(5); PilaO.push(bC++);}  // 0 noType
-varcte1: /* empty */ |  COO exp COC;
+			TRUE   {Constants[bC] = (char *)"TRUE"; PilaT.push(4); PilaO.push(bC++);}| // 4 bool
+			FALSE  {Constants[bC] = (char *)"FALSE"; PilaT.push(5); PilaO.push(bC++);}  // 0 noType
+varcte1: /* empty */ |  COO exp COC 
+			{	
+				addCuadsArrInic(nameVar, sizeArr.find(nameVar)->second, getSizeArr((char*)"a"));
+			};
 
 
 condicion: SI PAO logico PAC { GC_Estatutos_gotoF(); } LLO co1 LLC co3 { GC_Estatutos_IF_3();};
@@ -215,7 +250,7 @@ pred2: /* empty */ | C pred1;
 
 
 imprimir: IMPRIMIR PAO imp1 PAC;
-imp1: varcte imp2;
+imp1: varcte { addCuad(24,-1,-1,PilaO.top()); PilaO.pop(); PilaT.pop(); } imp2;
 imp2: /* empty */ | C imp1;
 
 
